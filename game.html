@@ -135,9 +135,10 @@ var exitNode={x:COLS-1.5,y:ROWS-1.5,unlocked:false};
 var transitioning=false;
 
 // PLAYER (x,y in grid coords, angle in radians)
-var player={x:1.5,y:1.5,angle:0,moveSpeed:0.05,rotSpeed:0.05};
+var player={x:1.5,y:1.5,angle:0,moveSpeed:0.05,rotSpeed:0.05,mouseSensitivity:0.002};
 var keys={};
 var lastStepFrame=0;
+var pointerLocked=false;
 
 function rnd(a,b){return a+Math.random()*(b-a);}
 function layerStr(n){return 'LAYER:'+(n<10?'0':'')+n;}
@@ -793,7 +794,7 @@ function drawTitle(){
   ctx.font='9px monospace';
   ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT SIGNAL NODES',W/2,H/2-8);
   ctx.fillText('W/S=MOVE A/D=TURN Q/E=STRAFE ARROWS=TURN',W/2,H/2+7);
-  ctx.fillText('SPACE=ISOLATION.EXE (SLOW ENTITIES)',W/2,H/2+20);
+  ctx.fillText('MOUSE=LOOK AROUND  SPACE=ISOLATION.EXE',W/2,H/2+20);
   ctx.fillStyle='#888888';
   ctx.font='7px monospace';
   ctx.fillText('TAG GAME // DON\'T GET CAUGHT // REACH THE EXIT',W/2,H/2+35);
@@ -833,6 +834,28 @@ function reset(){
 // --- EVENTS ---
 cv.addEventListener('click',function(){
   if(!started||!running){reset();return;}
+  // Request pointer lock for mouse look
+  if(running&&!pointerLocked){
+    cv.requestPointerLock=cv.requestPointerLock||cv.mozRequestPointerLock;
+    cv.requestPointerLock();
+  }
+});
+
+// Pointer lock change
+document.addEventListener('pointerlockchange',function(){
+  pointerLocked=document.pointerLockElement===cv||document.mozPointerLockElement===cv;
+},false);
+
+document.addEventListener('mozpointerlockchange',function(){
+  pointerLocked=document.pointerLockElement===cv||document.mozPointerLockElement===cv;
+},false);
+
+// Mouse movement for looking around
+document.addEventListener('mousemove',function(e){
+  if(pointerLocked&&running){
+    var movementX=e.movementX||e.mozMovementX||0;
+    player.angle+=movementX*player.mouseSensitivity;
+  }
 });
 
 document.addEventListener('keydown',function(e){
