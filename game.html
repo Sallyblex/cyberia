@@ -71,6 +71,7 @@ var powerActive=false,powerTimer=0,powerCooldown=0;
 var shake=0,flash=0,highScore=0;
 var nodes=[],enemies=[],particles=[];
 var exitNode={x:COLS-1.5,y:ROWS-1.5,unlocked:false};
+var transitioning=false;
 
 // PLAYER (x,y in grid coords, angle in radians)
 var player={x:1.5,y:1.5,angle:0,moveSpeed:0.08,rotSpeed:0.08};
@@ -78,6 +79,7 @@ var keys={};
 
 function rnd(a,b){return a+Math.random()*(b-a);}
 function layerStr(n){return 'LAYER:'+(n<10?'0':'')+n;}
+function showHint(msg){hintText.textContent=msg;}
 
 // --- MAZE GENERATION ---
 function buildMaze(){
@@ -119,15 +121,18 @@ function spawnFloor(){
   buildMaze();
   nodes=[];
   var count=3+Math.min(3,Math.floor(floor/2));
-  for(var i=0;i<count;i++){
+  var maxAttempts=count*50;
+  var attempts=0;
+  for(var i=0;i<count&&attempts<maxAttempts;i++){
     var nx,ny,tries=0;
     do{
       nx=1+Math.floor(Math.random()*(COLS-2));
       ny=1+Math.floor(Math.random()*(ROWS-2));
       tries++;
+      attempts++;
     }while((maze[ny][nx]===1||(nx===1&&ny===1)||(nx===COLS-2&&ny===ROWS-2)||
-           nodes.some(function(n){return n.x===nx&&n.y===ny;}))&&tries<100);
-    if(tries<100)nodes.push({x:nx+0.5,y:ny+0.5,collected:false,pulse:0});
+           nodes.some(function(n){return Math.floor(n.x)===nx&&Math.floor(n.y)===ny;}))&&tries<50&&attempts<maxAttempts);
+    if(tries<50)nodes.push({x:nx+0.5,y:ny+0.5,collected:false,pulse:0});
   }
   exitNode={x:COLS-1.5,y:ROWS-1.5,unlocked:false};
   
@@ -140,7 +145,8 @@ function spawnFloor(){
       ex=2+Math.floor(Math.random()*(COLS-4));
       ey=2+Math.floor(Math.random()*(ROWS-4));
       t2++;
-    }while((maze[ey][ex]===1||Math.abs(ex-player.x)<2||Math.abs(ey-player.y)<2)&&t2<100);
+      if(t2>=100)break;
+    }while(maze[ey][ex]===1||Math.abs(ex-player.x)<2||Math.abs(ey-player.y)<2);
     if(t2<100){
       var type=Math.random()<0.3?'fast':'normal';
       enemies.push({x:ex+0.5,y:ey+0.5,type:type,speed:type==='fast'?0.025:0.015,lastMove:0});
@@ -150,6 +156,7 @@ function spawnFloor(){
   player.x=1.5;player.y=1.5;player.angle=0;
   particles=[];
   flash=20;
+  transitioning=false;
 }
 
 // --- RAYCASTING ---
@@ -270,9 +277,10 @@ function updateNodes(){
     addParticles(W/2,H/2,16,'0,212,255');
   }
   
-  if(exitNode.unlocked){
+  if(exitNode.unlocked&&!transitioning){
     var edx=player.x-exitNode.x,edy=player.y-exitNode.y;
     if(edx*edx+edy*edy<0.5){
+      transitioning=true;
       floor++;
       score+=150+floor*40;
       layerLabel.textContent=layerStr(floor);
@@ -537,7 +545,10 @@ function renderParticles(){
 
 // --- MAIN LOOP ---
 function loop(){
-  if(!running)return;
+  if(!running){
+    if(!started)requestAnimationFrame(drawTitle);
+    return;
+  }
   frame++;
   
   // Timers
@@ -545,10 +556,14 @@ function loop(){
   if(powerCooldown>0)powerCooldown--;
   if(flash>0)flash--;
   
-  updatePlayer();
-  updateEnemies();
-  updateNodes();
-  updateParticles();
+  try{
+    updatePlayer();
+    updateEnemies();
+    updateNodes();
+    updateParticles();
+  }catch(err){
+    console.error('Game loop error:',err);
+  }
   
   // Render
   ctx.save();
@@ -656,6 +671,7 @@ function reset(){
   powerCooldown=0;
   shake=0;
   flash=0;
+  transitioning=false;
   layerLabel.textContent=layerStr(1);
   running=true;
   started=true;
