@@ -26,6 +26,13 @@
     padding:0 2px;
   }
   #hint-text{color:#aaaaaa;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;}
+  /* Lain decorative elements */
+  .lain-border{position:absolute;pointer-events:none;font-family:'VT323',monospace;color:#0088aa;font-size:9px;opacity:0.5;letter-spacing:2px;}
+  .lain-corner{position:absolute;pointer-events:none;width:40px;height:40px;border:1px solid #0088aa;opacity:0.3;}
+  .lain-scan{position:absolute;pointer-events:none;width:2px;height:100%;background:linear-gradient(to bottom,transparent,#00d4ff,transparent);animation:scan-horizontal 4s linear infinite;opacity:0.15;}
+  @keyframes scan-horizontal{0%{left:-2px;}100%{left:calc(100% + 2px);}}
+  .glitch-line{position:absolute;pointer-events:none;height:1px;background:#00ffaa;opacity:0.3;animation:glitch-shift 0.3s steps(4) infinite;}
+  @keyframes glitch-shift{0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
   /* Scanline overlay */
   #wrap::after{
     content:'';position:fixed;inset:0;pointer-events:none;z-index:10;
@@ -63,7 +70,23 @@
     <div id="login-error" style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#ff8888;margin-top:10px;min-height:14px;letter-spacing:1px;"></div>
   </div>
 </div>
-<div id="wrap" style="display:none;">
+<div id="wrap" style="display:none;position:relative;">
+  <!-- Lain decorative elements -->
+  <div style="position:absolute;top:-25px;left:0;right:0;font-family:'VT323',monospace;font-size:7px;color:#0088aa;opacity:0.4;letter-spacing:3px;text-align:center;">
+    ▓▓▓▓ WIRED://DIRECT.CONNECT ▓▓▓▓
+  </div>
+  <div class="lain-corner" style="top:68px;left:-1px;border-right:none;border-bottom:none;"></div>
+  <div class="lain-corner" style="top:68px;right:-1px;border-left:none;border-bottom:none;"></div>
+  <div class="lain-corner" style="bottom:33px;left:-1px;border-right:none;border-top:none;"></div>
+  <div class="lain-corner" style="bottom:33px;right:-1px;border-left:none;border-top:none;"></div>
+  <div class="lain-border" style="top:65px;left:-80px;transform:rotate(-90deg);">[SYS:LAYER.07]</div>
+  <div class="lain-border" style="top:65px;right:-80px;transform:rotate(90deg);">[NET:PROTOCOL]</div>
+  <div class="lain-scan" style="animation-delay:-1.5s;"></div>
+  <div class="glitch-line" style="top:25%;width:100%;left:0;"></div>
+  <div class="glitch-line" style="top:75%;width:100%;left:0;animation-delay:-0.15s;"></div>
+  <div style="position:absolute;bottom:-22px;left:0;right:0;font-family:'Share Tech Mono',monospace;font-size:6px;color:#0088aa;opacity:0.35;letter-spacing:2px;text-align:center;">
+    ░▒▓ PRESENT DAY // PRESENT TIME ▓▒░
+  </div>
   <div id="label">● ○ ○&nbsp;&nbsp;PHANTOMa&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
   <canvas id="lain-c" width="960" height="600"></canvas>
   <div id="status-bar">
@@ -240,18 +263,18 @@ function castRay(angle){
 function updatePlayer(){
   var moveX=0,moveY=0;
   
-  // Rotation
-  if(keys['ArrowLeft']||keys['a']||keys['A'])player.angle-=player.rotSpeed;
-  if(keys['ArrowRight']||keys['d']||keys['D'])player.angle+=player.rotSpeed;
+  // Rotation (only arrow keys now)
+  if(keys['ArrowLeft'])player.angle-=player.rotSpeed;
+  if(keys['ArrowRight'])player.angle+=player.rotSpeed;
   
   // Forward/back
   var sin=Math.sin(player.angle),cos=Math.cos(player.angle);
   if(keys['ArrowUp']||keys['w']||keys['W']){moveX+=cos*player.moveSpeed;moveY+=sin*player.moveSpeed;}
   if(keys['ArrowDown']||keys['s']||keys['S']){moveX-=cos*player.moveSpeed;moveY-=sin*player.moveSpeed;}
   
-  // Strafe (Q/E)
-  if(keys['q']||keys['Q']){moveX+=sin*player.moveSpeed;moveY-=cos*player.moveSpeed;}
-  if(keys['e']||keys['E']){moveX-=sin*player.moveSpeed;moveY+=cos*player.moveSpeed;}
+  // Strafe (A/D and Q/E)
+  if(keys['a']||keys['A']||keys['q']||keys['Q']){moveX+=sin*player.moveSpeed;moveY-=cos*player.moveSpeed;}
+  if(keys['d']||keys['D']||keys['e']||keys['E']){moveX-=sin*player.moveSpeed;moveY+=cos*player.moveSpeed;}
   
   // Collision
   var newX=player.x+moveX,newY=player.y+moveY;
@@ -793,8 +816,8 @@ function drawTitle(){
   ctx.fillStyle='#cccccc';
   ctx.font='9px monospace';
   ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT SIGNAL NODES',W/2,H/2-8);
-  ctx.fillText('W/S=MOVE A/D=TURN Q/E=STRAFE ARROWS=TURN',W/2,H/2+7);
-  ctx.fillText('MOUSE=LOOK AROUND  SPACE=ISOLATION.EXE',W/2,H/2+20);
+  ctx.fillText('W/S=MOVE  A/D=STRAFE  MOUSE=LOOK  ARROWS=TURN',W/2,H/2+7);
+  ctx.fillText('SPACE=ISOLATION.EXE (SLOW ENTITIES)',W/2,H/2+20);
   ctx.fillStyle='#888888';
   ctx.font='7px monospace';
   ctx.fillText('TAG GAME // DON\'T GET CAUGHT // REACH THE EXIT',W/2,H/2+35);
