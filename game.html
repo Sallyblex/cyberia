@@ -27,6 +27,1158 @@
   }
   #hint-text{color:#99ccff;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;text-shadow:0 0 4px rgba(120,160,255,0.5);}
   /* Copland OS System Interface */
+  .copland-window{position:absolute;pointer-events:none;background:linear-gradient(135deg,rgba(60,100,200,0.2),rgba(40,80,180,0.35));backdrop-filter:blur(12px);border:1px solid rgba(100,150,255,0.5);border-radius:6px;box-shadow:0 6px 30px rgba(50,100,220,0.4),inset 0 1px 0 rgba(150,180,255,0.4);animation:float-drift 8s ease-in-out infinite;}
+  @keyframes float-drift{0%,100%{transform:translateY(0) translateX(0);}25%{transform:translateY(-3px) translateX(2px);}50%{transform:translateY(0) translateX(0);}75%{transform:translateY(3px) translateX(-2px);}}
+  .copland-panel{position:absolute;pointer-events:none;font-family:'Share Tech Mono',monospace;font-size:6px;color:#88bbff;opacity:0.7;letter-spacing:1px;line-height:1.5;text-shadow:0 0 4px rgba(100,150,255,0.5);animation:subtle-pulse 4s ease-in-out infinite;}
+  @keyframes subtle-pulse{0%,100%{opacity:0.7;}50%{opacity:0.85;}}
+  .copland-holo{position:absolute;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(80,130,255,0.15),transparent);animation:holo-sweep 6s linear infinite;height:100%;width:100%;}
+  @keyframes holo-sweep{0%{transform:translateY(-100%);}100%{transform:translateY(100%);}}
+  .copland-scan{position:absolute;pointer-events:none;width:3px;height:100%;background:linear-gradient(to bottom,transparent,rgba(120,160,255,0.7),rgba(80,140,255,0.9),rgba(120,160,255,0.7),transparent);animation:scan-motion 5s linear infinite;box-shadow:0 0 12px rgba(100,150,255,0.7);}
+  @keyframes scan-motion{0%{left:-3px;}100%{left:calc(100% + 3px);}}
+  .copland-line{position:absolute;pointer-events:none;height:1px;background:linear-gradient(to right,transparent,rgba(100,150,255,0.5),transparent);animation:line-glow 3s ease-in-out infinite;}
+  @keyframes line-glow{0%,100%{opacity:0.4;box-shadow:0 0 3px rgba(100,150,255,0.4);}50%{opacity:0.7;box-shadow:0 0 8px rgba(100,150,255,0.7);}}
+  .copland-data{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:7px;color:#99ccff;opacity:0.7;letter-spacing:2px;animation:data-flicker 3s ease-in-out infinite;text-shadow:0 0 5px rgba(120,160,255,0.6);}
+  @keyframes data-flicker{0%,100%{opacity:0.7;}30%{opacity:0.45;}60%{opacity:0.85;}}
+  .copland-bracket{position:absolute;pointer-events:none;border:2px solid rgba(100,150,255,0.5);box-shadow:0 0 18px rgba(80,140,255,0.4),inset 0 0 8px rgba(120,170,255,0.25);animation:bracket-fade 5s ease-in-out infinite;}
+  @keyframes bracket-fade{0%,100%{opacity:0.35;}50%{opacity:0.55;}}
+  .copland-stream{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:6px;color:#7799dd;opacity:0.4;letter-spacing:1px;animation:stream-scroll 20s linear infinite;white-space:nowrap;text-shadow:0 0 3px rgba(100,130,220,0.4);}
+  @keyframes stream-scroll{0%{transform:translateY(0);}100%{transform:translateY(-100%);}}
+  .copland-glow{position:absolute;pointer-events:none;background:radial-gradient(circle,rgba(80,130,255,0.25),transparent 70%);animation:glow-pulse 6s ease-in-out infinite;}
+  @keyframes glow-pulse{0%,100%{opacity:0.4;transform:scale(1);}50%{opacity:0.7;transform:scale(1.15);}}
+  .copland-grid{position:absolute;pointer-events:none;opacity:0.08;background-image:repeating-linear-gradient(0deg,rgba(100,150,255,0.3) 0px,transparent 1px,transparent 15px),repeating-linear-gradient(90deg,rgba(100,150,255,0.3) 0px,transparent 1px,transparent 15px);animation:grid-shift 10s linear infinite;}
+  @keyframes grid-shift{0%{background-position:0 0;}100%{background-position:15px 15px;}}
+  /* Login Copland interface */
+  .copland-boot{font-family:'VT323',monospace;font-size:8px;color:#99ccff;opacity:0.75;letter-spacing:1px;line-height:1.7;text-align:left;text-shadow:0 0 4px rgba(120,160,255,0.4);}
+  .login-holo{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(80,130,255,0.1),transparent 60%);animation:holo-rotate 15s linear infinite;}
+  @keyframes holo-rotate{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+  /* Scanline overlay */
+  #wrap::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:10;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.18) 2px,rgba(0,0,0,0.18) 4px);
+  }
+  /* CRT glow effect */
+  canvas{
+    animation:crt-flicker 0.15s infinite alternate;
+  }
+  @keyframes crt-flicker{
+    0%{filter:brightness(1) contrast(1.05);}
+    100%{filter:brightness(1.02) contrast(1);}
+  }
+  /* Login input focus */
+  #login-user:focus,#login-pass:focus{
+    border-color:rgba(120,170,255,0.7) !important;
+    box-shadow:0 0 16px rgba(100,150,255,0.5),inset 0 0 12px rgba(80,130,255,0.2);
+    background:linear-gradient(135deg,rgba(40,80,180,0.4),rgba(30,70,160,0.5)) !important;
+  }
+  #login-btn:hover{
+    background:linear-gradient(135deg,rgba(60,110,220,0.6),rgba(40,90,200,0.7)) !important;
+    border-color:rgba(120,170,255,0.7) !important;
+    box-shadow:0 6px 30px rgba(80,140,240,0.5),inset 0 2px 0 rgba(160,190,255,0.3);
+    transform:translateY(-2px);
+  }
+  #login-error.show{opacity:1 !important;}
+</style>
+</head>
+<body>
+<!-- COPLAND OS LOGIN SCREEN -->
+<div id="login-screen" style="position:fixed;inset:0;background:linear-gradient(135deg,#000814,#001228);display:flex;align-items:center;justify-content:center;z-index:1000;overflow:hidden;">
+  <div class="login-holo"></div>
+  <div class="copland-grid" style="inset:0;opacity:0.12;"></div>
+  <!-- Floating holographic corners -->
+  <div style="position:absolute;top:25px;left:25px;width:70px;height:70px;border-left:2px solid rgba(100,150,255,0.5);border-top:2px solid rgba(100,150,255,0.5);box-shadow:0 0 12px rgba(80,130,255,0.4);animation:float-drift 6s ease-in-out infinite;"></div>
+  <div style="position:absolute;top:25px;right:25px;width:70px;height:70px;border-right:2px solid rgba(100,150,255,0.5);border-top:2px solid rgba(100,150,255,0.5);box-shadow:0 0 12px rgba(80,130,255,0.4);animation:float-drift 6s ease-in-out infinite;animation-delay:-1.5s;"></div>
+  <div style="position:absolute;bottom:25px;left:25px;width:70px;height:70px;border-left:2px solid rgba(100,150,255,0.5);border-bottom:2px solid rgba(100,150,255,0.5);box-shadow:0 0 12px rgba(80,130,255,0.4);animation:float-drift 6s ease-in-out infinite;animation-delay:-3s;"></div>
+  <div style="position:absolute;bottom:25px;right:25px;width:70px;height:70px;border-right:2px solid rgba(100,150,255,0.5);border-bottom:2px solid rgba(100,150,255,0.5);box-shadow:0 0 12px rgba(80,130,255,0.4);animation:float-drift 6s ease-in-out infinite;animation-delay:-4.5s;"></div>
+  <!-- Holographic title -->
+  <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%);font-family:'VT323',monospace;font-size:11px;color:#99ccff;opacity:0.7;letter-spacing:4px;text-shadow:0 0 12px rgba(100,150,255,0.8),0 0 20px rgba(80,130,255,0.4);animation:subtle-pulse 3s ease-in-out infinite;">C O P L A N D   O S   v7.13</div>
+  <!-- Floating data windows -->
+  <div class="copland-window" style="top:100px;left:35px;padding:8px 10px;width:140px;animation-delay:0s;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:6px;color:#88bbff;opacity:0.8;letter-spacing:1px;line-height:1.9;text-align:left;">
+    › SYS INIT...<br>
+    › WIRED SCAN<br>
+    › MEM 2048MB<br>
+    › PROTOCOL_7 OK<br>
+    › AUTH PENDING
+    </div>
+  </div>
+  <div class="copland-window" style="top:100px;right:35px;padding:8px 10px;width:130px;animation-delay:-2s;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:6px;color:#7799dd;opacity:0.7;letter-spacing:1px;line-height:1.9;text-align:right;">
+    192.168.1.###<br>
+    PORT 7777 OPEN<br>
+    LAYER_07<br>
+    PHANTOMa<br>
+    CONN ACTIVE
+    </div>
+  </div>
+  <!-- Main holographic panel -->
+  <div style="position:relative;text-align:center;padding:45px 40px;background:linear-gradient(135deg,rgba(40,80,180,0.25),rgba(20,60,160,0.35));backdrop-filter:blur(12px);border:2px solid rgba(100,150,255,0.5);border-radius:6px;box-shadow:0 8px 40px rgba(60,120,240,0.4),inset 0 2px 0 rgba(150,180,255,0.2),inset 0 -1px 0 rgba(50,100,200,0.3);min-width:440px;animation:float-drift 10s ease-in-out infinite;">
+    <div class="copland-holo" style="border-radius:6px;"></div>
+    <!-- Header glow -->
+    <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#001228,#000814);padding:0 12px;font-family:'Share Tech Mono',monospace;font-size:7px;color:#88bbff;letter-spacing:2px;opacity:0.85;text-shadow:0 0 6px rgba(100,150,255,0.6);border:1px solid rgba(100,150,255,0.3);border-radius:2px;">◈ WIRED://AUTH.PROTOCOL ◈</div>
+    <div style="font-family:'VT323',monospace;font-size:34px;color:#99ccff;text-shadow:0 0 20px rgba(120,160,255,0.9),0 0 40px rgba(80,140,255,0.5);margin-bottom:8px;letter-spacing:6px;animation:glow-pulse 4s ease-in-out infinite;">PHANTOMa</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#7799dd;letter-spacing:2px;margin-bottom:10px;opacity:0.75;text-shadow:0 0 4px rgba(100,130,220,0.4);">◇ LAYER:06 DEEP ACCESS GATE ◇</div>
+    <div style="width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(100,150,255,0.4),transparent);margin:14px 0;opacity:0.6;box-shadow:0 0 4px rgba(100,150,255,0.3);"></div>
+    <!-- Boot sequence -->
+    <div class="copland-boot" style="margin:18px 0;text-align:left;padding-left:12px;">
+      › Initializing Wired connection...<br>
+      › Credentials required for deep layer access<br>
+      › Authentication data hidden in profile substrate<br>
+      › Seek Protocol_7 authorization keys
+    </div>
+    <div style="width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(120,160,255,0.3),transparent);margin:14px 0;opacity:0.4;"></div>
+    <!-- Input fields with holo effect -->
+    <div style="position:relative;margin:12px 0;">
+      <div style="position:absolute;left:-28px;top:50%;transform:translateY(-50%);font-family:'VT323',monospace;font-size:8px;color:#88bbff;opacity:0.7;text-shadow:0 0 4px rgba(100,150,255,0.5);">›</div>
+      <input type="text" id="login-user" placeholder="USER_ID" style="width:100%;padding:11px 14px;background:linear-gradient(135deg,rgba(30,70,160,0.3),rgba(20,50,140,0.4));backdrop-filter:blur(4px);border:1px solid rgba(100,150,255,0.4);border-left:2px solid rgba(120,170,255,0.6);color:#99ccff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;box-shadow:inset 0 2px 8px rgba(0,10,40,0.6),0 0 8px rgba(80,130,255,0.2);border-radius:3px;" />
+    </div>
+    <div style="position:relative;margin:12px 0;">
+      <div style="position:absolute;left:-28px;top:50%;transform:translateY(-50%);font-family:'VT323',monospace;font-size:8px;color:#88bbff;opacity:0.7;text-shadow:0 0 4px rgba(100,150,255,0.5);">›</div>
+      <input type="password" id="login-pass" placeholder="AUTH_KEY" style="width:100%;padding:11px 14px;background:linear-gradient(135deg,rgba(30,70,160,0.3),rgba(20,50,140,0.4));backdrop-filter:blur(4px);border:1px solid rgba(100,150,255,0.4);border-left:2px solid rgba(120,170,255,0.6);color:#99ccff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;box-shadow:inset 0 2px 8px rgba(0,10,40,0.6),0 0 8px rgba(80,130,255,0.2);border-radius:3px;" />
+    </div>
+    <!-- Connect button with glow -->
+    <button id="login-btn" style="width:100%;padding:13px;margin-top:18px;background:linear-gradient(135deg,rgba(50,100,200,0.5),rgba(30,80,180,0.6));backdrop-filter:blur(6px);border:2px solid rgba(100,150,255,0.5);border-radius:4px;color:#aaccff;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;cursor:pointer;transition:all 0.4s;text-shadow:0 0 10px rgba(120,160,255,0.8);box-shadow:0 4px 20px rgba(60,120,240,0.3),inset 0 1px 0 rgba(150,180,255,0.2);position:relative;overflow:hidden;">
+      <span style="position:relative;z-index:2;">◈◈ ESTABLISH WIRED CONNECTION ◈◈</span>
+    </button>
+    <!-- Error display -->
+    <div id="login-error" style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#ffaaaa;margin-top:14px;min-height:18px;letter-spacing:1px;text-shadow:0 0 6px rgba(255,120,120,0.6);background:linear-gradient(135deg,rgba(60,10,10,0.4),rgba(80,20,20,0.5));backdrop-filter:blur(4px);padding:5px;border-left:2px solid rgba(255,80,100,0.6);border-radius:2px;opacity:0;transition:opacity 0.4s;"></div>
+    <!-- Footer -->
+    <div style="position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#001228,#000814);padding:0 12px;font-family:'VT323',monospace;font-size:6px;color:#7799dd;letter-spacing:2px;opacity:0.6;border:1px solid rgba(100,150,255,0.25);border-radius:2px;">PRESENT DAY ◇ PRESENT TIME</div>
+  </div>
+  <!-- Holographic scan effects -->
+  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(100,150,255,0.03) 3px,rgba(100,150,255,0.03) 6px);"></div>
+  <div class="copland-scan" style="animation-delay:0s;"></div>
+  <div class="copland-scan" style="animation-delay:-2.5s;opacity:0.4;"></div>
+  <!-- Floating light particles -->
+  <div class="copland-glow" style="top:15%;left:20%;width:150px;height:150px;animation-delay:0s;"></div>
+  <div class="copland-glow" style="top:60%;right:15%;width:180px;height:180px;animation-delay:-3s;"></div>
+</div>
+<div id="wrap" style="display:none;position:relative;">
+  <!-- COPLAND OS System Interface -->
+  <!-- Floating top header -->
+  <div class="copland-window" style="top:-42px;left:-155px;right:-155px;height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-family:'Share Tech Mono',monospace;font-size:6px;color:#88bbff;letter-spacing:1px;animation-delay:-1s;">
+    <span>◈ COPLAND.OS v7.13 PROTOCOL_7</span>
+    <span>PHANTOMa ◇ WIRED://DIRECT.LAYER_06</span>
+    <span>CONNECTION: ACTIVE ◈</span>
+  </div>
+  <!-- Floating corner brackets (larger like login) -->
+  <div class="copland-bracket" style="top:58px;left:-15px;width:60px;height:60px;border-right:none;border-bottom:none;animation-delay:0s;"></div>
+  <div class="copland-bracket" style="top:58px;right:-15px;width:60px;height:60px;border-left:none;border-bottom:none;animation-delay:-1s;"></div>
+  <div class="copland-bracket" style="bottom:23px;left:-15px;width:60px;height:60px;border-right:none;border-top:none;animation-delay:-2s;"></div>
+  <div class="copland-bracket" style="bottom:23px;right:-15px;width:60px;height:60px;border-left:none;border-top:none;animation-delay:-3s;"></div>
+  <!-- Left floating system window (larger) -->
+  <div class="copland-window" style="top:95px;left:-175px;width:160px;padding:12px 14px;animation-delay:-2s;">
+    <div class="copland-panel" style="position:static;">
+      <div style="color:#99ccff;margin-bottom:6px;font-weight:bold;font-size:7px;">› SYS.STATUS</div>
+      CPU: ████████░░ 87%<br>
+      MEM: ███████░░░ 73%<br>
+      NET: ██████████ 100%<br>
+      <div style="margin-top:6px;color:#88bbff;">LAYER: <span id="sys-layer">01</span></div>
+      <div style="color:#7799dd;margin-top:3px;font-size:5px;">UPTIME: <span id="sys-time">00:00</span></div>
+    </div>
+  </div>
+  <!-- Left protocol stream window (larger) -->
+  <div class="copland-window" style="top:260px;left:-170px;width:155px;height:180px;padding:8px;overflow:hidden;animation-delay:-4s;">
+    <div class="copland-stream">
+      <div>PROTO://LAYER_07<br>CIPHER:PHANTOMa<br>AUTH:VERIFIED<br>NODE:ACTIVE<br>SIGNAL:STRONG<br>PACKET:FLOW<br>DATA:SYNC<br>WIRED:OPEN<br>ACCESS:DEEP<br>GATE:UNLOCKED<br>PROTO://LAYER_07<br>CIPHER:PHANTOMa<br>AUTH:VERIFIED<br>NODE:ACTIVE<br>SIGNAL:STRONG</div>
+    </div>
+  </div>
+  <!-- Right entity monitor window (larger) -->
+  <div class="copland-window" style="top:95px;right:-175px;width:160px;padding:12px 14px;animation-delay:-3s;">
+    <div class="copland-panel" style="position:static;">
+      <div style="color:#ffaaaa;margin-bottom:6px;font-weight:bold;font-size:7px;text-shadow:0 0 4px rgba(255,150,150,0.5);">› ENTITIES</div>
+      DETECTED: <span id="entity-count" style="color:#ff9999;">##</span><br>
+      PROXIMITY: <span id="entity-prox" style="color:#ffcc88;">NEAR</span><br>
+      THREAT: <span style="color:#ffaaaa;">HIGH</span><br>
+      <div style="margin-top:6px;color:#99ccff;">NODES: <span id="node-count">##</span></div>
+      <div style="color:#88bbff;margin-top:3px;">EXIT: <span id="exit-status" style="color:#6688aa;">LOCKED</span></div>
+    </div>
+  </div>
+  <!-- Right network window (larger) -->
+  <div class="copland-window" style="top:260px;right:-170px;width:155px;padding:12px 14px;animation-delay:-5s;">
+    <div class="copland-panel" style="position:static;line-height:1.8;">
+      <div style="color:#88bbff;margin-bottom:6px;font-size:7px;font-weight:bold;">◈ NET.ACTIVITY</div>
+      <div style="font-size:5px;color:#7799dd;">
+      TX: ▓▓▓░░░░░░░<br>
+      RX: ▓▓▓▓▓▓░░░░<br>
+      192.168.1.###<br>
+      PORT: 7777 OPEN<br>
+      PING: 12ms<br>
+      JITTER: 3ms<br>
+      LOSS: 0.0%
+      </div>
+    </div>
+  </div>
+  <!-- Rotating holographic background layer (like login) -->
+  <div style="position:absolute;inset:-50px;pointer-events:none;background:radial-gradient(circle at 30% 40%,rgba(80,140,255,0.08),transparent 40%),radial-gradient(circle at 70% 60%,rgba(100,160,255,0.06),transparent 50%);animation:holo-rotate 15s linear infinite;z-index:-1;"></div>
+  <!-- Holographic scan effects -->
+  <div class="copland-scan" style="animation-delay:0s;"></div>
+  <div class="copland-scan" style="animation-delay:-2.5s;width:2px;opacity:0.3;"></div>
+  <!-- Floating data particles -->
+  <div class="copland-data" style="top:50px;left:110px;animation-delay:0s;">01101000</div>
+  <div class="copland-data" style="top:50px;right:110px;animation-delay:-1.5s;">11010011</div>
+  <div class="copland-data" style="bottom:40px;left:200px;animation-delay:-3s;">10111001</div>
+  <!-- Grid overlays -->
+  <div class="copland-grid" style="top:65px;left:-12px;width:110px;height:110px;"></div>
+  <div class="copland-grid" style="top:65px;right:-12px;width:110px;height:110px;"></div>
+  <!-- Glowing divider lines -->
+  <div class="copland-line" style="top:53px;left:-155px;right:-155px;"></div>
+  <div class="copland-line" style="bottom:-28px;left:-155px;right:-155px;animation-delay:-1.5s;"></div>
+  <!-- Bottom floating bar -->
+  <div class="copland-window" style="bottom:-32px;left:-155px;right:-155px;height:22px;display:flex;align-items:center;justify-content:center;font-family:'VT323',monospace;font-size:7px;color:#7799dd;letter-spacing:2px;animation-delay:-6s;">
+    ◇ PRESENT_DAY.PRESENT_TIME ◇ CLOSE_THE_WORLD.OPEN_THE_NEXT ◇
+  </div>
+  <!-- Isolation power window (larger) -->
+  <div class="copland-window" style="bottom:-125px;left:50%;transform:translateX(-50%);width:240px;text-align:center;padding:14px;animation-delay:-4s;">
+    <div class="copland-panel" style="position:static;">
+      <div style="color:#cc99ff;font-weight:bold;font-size:8px;margin-bottom:6px;text-shadow:0 0 8px rgba(180,140,255,0.6);">◈ ISOLATION.EXE ◈</div>
+      <div id="iso-status" style="font-size:6px;color:#9999cc;margin-bottom:3px;">STATUS: STANDBY</div>
+      <div id="iso-bar" style="margin-top:6px;height:6px;background:rgba(30,50,100,0.5);border:1px solid rgba(100,150,255,0.4);border-radius:3px;position:relative;overflow:hidden;"><div style="position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,#88bbff,#99ccff);transition:width 0.3s;box-shadow:0 0 10px rgba(120,160,255,0.7);" id="iso-fill"></div></div>
+    </div>
+  </div>
+  <!-- Ambient glow effects (enhanced like login) -->
+  <div class="copland-glow" style="top:20%;left:8%;width:220px;height:220px;animation-delay:-2s;"></div>
+  <div class="copland-glow" style="bottom:20%;right:6%;width:200px;height:200px;animation-delay:-5s;"></div>
+  <div class="copland-glow" style="top:50%;left:50%;width:180px;height:180px;animation-delay:-8s;transform:translate(-50%,-50%);"></div>
+  <div id="label">● ○ ○&nbsp;&nbsp;PHANTOMa&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
+  <canvas id="lain-c" width="960" height="600"></canvas>
+  <div id="status-bar">
+    <span id="combo-display"></span>
+    <span id="hint-text">[ CLICK TO ENTER THE WIRED ]</span>
+    <span id="power-display"></span>
+  </div>
+</div>
+<script>
+(function(){
+'use strict';
+
+// === AUDIO SYSTEM ===
+var audioCtx=null;
+var masterVolume=0.3;
+
+function initAudio(){
+  try{
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  }catch(e){console.log('Audio not supported');}
+}
+
+function playTone(freq,duration,type,vol){
+  if(!audioCtx)return;
+  var osc=audioCtx.createOscillator();
+  var gain=audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.type=type||'sine';
+  osc.frequency.value=freq;
+  gain.gain.value=(vol||0.1)*masterVolume;
+  gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+duration);
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime+duration);
+}
+
+function sndStep(){playTone(80,0.05,'square',0.03);}
+function sndCollect(){playTone(880,0.15,'sine',0.15);playTone(1320,0.2,'sine',0.1);}
+function sndHit(){playTone(120,0.3,'sawtooth',0.2);playTone(60,0.4,'square',0.15);}
+function sndPower(){playTone(440,0.1,'sine',0.12);playTone(660,0.15,'sine',0.1);playTone(880,0.2,'sine',0.08);}
+function sndExit(){playTone(660,0.2,'triangle',0.12);playTone(880,0.25,'triangle',0.1);playTone(1100,0.3,'triangle',0.08);}
+function sndAmbient(){if(audioCtx&&Math.random()<0.02)playTone(rnd(40,80),0.3,'triangle',0.02);}
+
+var cv=document.getElementById('lain-c');
+var ctx=cv.getContext('2d');
+var W=cv.width,H=cv.height;
+var layerLabel=document.getElementById('layer-label');
+var hintText=document.getElementById('hint-text');
+var comboDisplay=document.getElementById('combo-display');
+var powerDisplay=document.getElementById('power-display');
+
+// RAYCASTING CONFIG
+var FOV=Math.PI/3; // 60 degrees
+var HALF_FOV=FOV/2;
+var NUM_RAYS=W;
+var MAX_DEPTH=16;
+var DELTA_ANGLE=FOV/NUM_RAYS;
+
+// GRID
+var COLS=17,ROWS=11;
+var maze=[];
+
+// GAME STATE
+var score=0,lives=3,floor=1,frame=0,running=false,started=false;
+var powerActive=false,powerTimer=0,powerCooldown=0;
+var shake=0,flash=0,highScore=0;
+var nodes=[],enemies=[],particles=[];
+var exitNode={x:COLS-1.5,y:ROWS-1.5,unlocked:false};
+var transitioning=false;
+
+// PLAYER (x,y in grid coords, angle in radians)
+var player={x:1.5,y:1.5,angle:0,moveSpeed:0.05,rotSpeed:0.05,mouseSensitivity:0.002};
+var keys={};
+var lastStepFrame=0;
+var pointerLocked=false;
+
+function rnd(a,b){return a+Math.random()*(b-a);}
+function layerStr(n){return 'LAYER:'+(n<10?'0':'')+n;}
+function showHint(msg){hintText.textContent=msg;}
+
+// --- MAZE GENERATION ---
+function buildMaze(){
+  maze=[];
+  for(var y=0;y<ROWS;y++){maze[y]=[];for(var x=0;x<COLS;x++)maze[y][x]=1;}
+  var stack=[];
+  var cx=1,cy=1;
+  maze[cy][cx]=0;
+  stack.push([cx,cy]);
+  while(stack.length>0){
+    var dirs=[[2,0],[-2,0],[0,2],[0,-2]];
+    dirs.sort(function(){return Math.random()-0.5;});
+    var carved=false;
+    for(var i=0;i<4;i++){
+      var nx=cx+dirs[i][0],ny=cy+dirs[i][1];
+      if(nx>0&&ny>0&&nx<COLS-1&&ny<ROWS-1&&maze[ny][nx]===1){
+        maze[cy+dirs[i][1]/2][cx+dirs[i][0]/2]=0;
+        maze[ny][nx]=0;
+        stack.push([cx,cy]);
+        cx=nx;cy=ny;
+        carved=true;
+        break;
+      }
+    }
+    if(!carved){var p=stack.pop();cx=p[0];cy=p[1];}
+  }
+  maze[1][1]=0;
+  maze[ROWS-2][COLS-2]=0;
+}
+
+function isWall(x,y){
+  var gx=Math.floor(x),gy=Math.floor(y);
+  if(gx<0||gy<0||gx>=COLS||gy>=ROWS)return true;
+  return maze[gy][gx]===1;
+}
+
+// --- SPAWN FLOOR ---
+function spawnFloor(){
+  buildMaze();
+  nodes=[];
+  var count=3+Math.min(3,Math.floor(floor/2));
+  var maxAttempts=count*50;
+  var attempts=0;
+  for(var i=0;i<count&&attempts<maxAttempts;i++){
+    var nx,ny,tries=0;
+    do{
+      nx=1+Math.floor(Math.random()*(COLS-2));
+      ny=1+Math.floor(Math.random()*(ROWS-2));
+      tries++;
+      attempts++;
+    }while((maze[ny][nx]===1||(nx===1&&ny===1)||(nx===COLS-2&&ny===ROWS-2)||
+           nodes.some(function(n){return Math.floor(n.x)===nx&&Math.floor(n.y)===ny;}))&&tries<50&&attempts<maxAttempts);
+    if(tries<50)nodes.push({x:nx+0.5,y:ny+0.5,collected:false,pulse:0});
+  }
+  exitNode={x:COLS-1.5,y:ROWS-1.5,unlocked:false};
+  
+  // Spawn enemies
+  enemies=[];
+  var eCount=2+Math.floor(floor*1.2);
+  for(var e=0;e<eCount;e++){
+    var ex,ey,t2=0;
+    do{
+      ex=2+Math.floor(Math.random()*(COLS-4));
+      ey=2+Math.floor(Math.random()*(ROWS-4));
+      t2++;
+      if(t2>=100)break;
+    }while(maze[ey][ex]===1||Math.abs(ex-player.x)<2||Math.abs(ey-player.y)<2);
+    if(t2<100){
+      var type=Math.random()<0.3?'fast':'normal';
+      enemies.push({x:ex+0.5,y:ey+0.5,type:type,speed:type==='fast'?0.025:0.015,lastMove:0});
+    }
+  }
+  
+  player.x=1.5;player.y=1.5;player.angle=0;
+  particles=[];
+  flash=20;
+  transitioning=false;
+}
+
+// --- RAYCASTING ---
+function castRay(angle){
+  var sin=Math.sin(angle),cos=Math.cos(angle);
+  var x=player.x,y=player.y;
+  for(var depth=0;depth<MAX_DEPTH;depth+=0.05){
+    x+=cos*0.05;
+    y+=sin*0.05;
+    if(isWall(x,y))return Math.sqrt((x-player.x)*(x-player.x)+(y-player.y)*(y-player.y));
+  }
+  return MAX_DEPTH;
+}
+
+
+
+// --- MOVEMENT ---
+function updatePlayer(){
+  var moveX=0,moveY=0;
+  
+  // Rotation (only arrow keys now)
+  if(keys['ArrowLeft'])player.angle-=player.rotSpeed;
+  if(keys['ArrowRight'])player.angle+=player.rotSpeed;
+  
+  // Forward/back
+  var sin=Math.sin(player.angle),cos=Math.cos(player.angle);
+  if(keys['ArrowUp']||keys['w']||keys['W']){moveX+=cos*player.moveSpeed;moveY+=sin*player.moveSpeed;}
+  if(keys['ArrowDown']||keys['s']||keys['S']){moveX-=cos*player.moveSpeed;moveY-=sin*player.moveSpeed;}
+  
+  // Strafe (A/D and Q/E)
+  if(keys['a']||keys['A']||keys['q']||keys['Q']){moveX+=sin*player.moveSpeed;moveY-=cos*player.moveSpeed;}
+  if(keys['d']||keys['D']||keys['e']||keys['E']){moveX-=sin*player.moveSpeed;moveY+=cos*player.moveSpeed;}
+  
+  // Collision
+  var newX=player.x+moveX,newY=player.y+moveY;
+  var buffer=0.25;
+  var moved=false;
+  if(!isWall(newX,newY)){
+    player.x=newX;
+    player.y=newY;
+    moved=true;
+  }else{
+    // Try sliding along walls
+    if(!isWall(newX,player.y)){player.x=newX;moved=true;}
+    if(!isWall(player.x,newY)){player.y=newY;moved=true;}
+  }
+  // Footstep sound (play less frequently)
+  if(moved&&frame-lastStepFrame>25){sndStep();lastStepFrame=frame;}
+}
+
+// --- ENEMY AI ---
+function updateEnemies(){
+  for(var i=enemies.length-1;i>=0;i--){
+    var e=enemies[i];
+    if(frame-e.lastMove<(powerActive?4:1)){continue;}
+    e.lastMove=frame;
+    
+    var dx=player.x-e.x,dy=player.y-e.y;
+    var dist=Math.sqrt(dx*dx+dy*dy);
+    
+    // Check collision with player
+    if(dist<0.4){
+      enemies.splice(i,1);
+      lives--;
+      shake=10;
+      sndHit();
+      addParticles(W/2,H/2,12,'255,120,150');
+      showHint('CONNECTION DISRUPTED');
+      continue;
+    }
+    
+    // Move toward player (chase probability based on type)
+    var chaseChance=e.type==='fast'?0.7:0.5;
+    if(Math.random()<chaseChance&&!powerActive){
+      var moveX=dx/dist*e.speed,moveY=dy/dist*e.speed;
+      var newX=e.x+moveX,newY=e.y+moveY;
+      if(!isWall(newX,e.y))e.x=newX;
+      if(!isWall(e.x,newY))e.y=newY;
+    }else{
+      // Random walk
+      var dirs=[[e.speed,0],[-e.speed,0],[0,e.speed],[0,-e.speed]];
+      var d=dirs[Math.floor(Math.random()*4)];
+      if(!isWall(e.x+d[0],e.y+d[1])){e.x+=d[0];e.y+=d[1];}
+    }
+  }
+}
+
+// --- NODES ---
+function updateNodes(){
+  for(var i=0;i<nodes.length;i++){
+    var n=nodes[i];
+    if(n.collected)continue;
+    n.pulse=(n.pulse+0.08)%(Math.PI*2);
+    var dx=player.x-n.x,dy=player.y-n.y;
+    var dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<0.4){
+      n.collected=true;
+      score+=40;
+      sndCollect();
+      addParticles(W/2,H/2,8,'120,180,255');
+      showHint('DATA NODE ACQUIRED');
+    }
+  }
+  
+  var allCollected=nodes.every(function(n){return n.collected;});
+  if(allCollected&&!exitNode.unlocked){
+    exitNode.unlocked=true;
+    sndExit();
+    showHint('EXIT PORTAL UNLOCKED');
+    addParticles(W/2,H/2,16,'0,212,255');
+  }
+  
+  if(exitNode.unlocked&&!transitioning){
+    var edx=player.x-exitNode.x,edy=player.y-exitNode.y;
+    if(edx*edx+edy*edy<0.5){
+      transitioning=true;
+      floor++;
+      score+=150+floor*40;
+      sndExit();
+      layerLabel.textContent=layerStr(floor);
+      showHint('// '+layerStr(floor)+' ACCESSED //');
+      spawnFloor();
+    }
+  }
+}
+
+// --- POWER ---
+function usePower(){
+  if(!running||powerCooldown>0||powerActive)return;
+  powerActive=true;
+  powerTimer=180;
+  powerCooldown=600;
+  sndPower();
+  showHint('ISOLATION.EXE // ENTITIES SLOWED');
+}
+
+// --- PARTICLES ---
+function addParticles(x,y,count,rgb){
+  for(var i=0;i<count;i++){
+    var a=rnd(0,Math.PI*2),s=rnd(1,3);
+    particles.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:20,rgb:rgb});
+  }
+}
+
+function updateParticles(){
+  for(var i=particles.length-1;i>=0;i--){
+    var p=particles[i];
+    p.x+=p.vx;p.y+=p.vy;
+    p.vx*=0.94;p.vy*=0.94;
+    p.life--;
+    if(p.life<=0)particles.splice(i,1);
+  }
+}
+
+// --- RENDER 3D ---
+function render3D(){
+  // Floor with blue perspective gradient
+  var gradient=ctx.createLinearGradient(0,H/2,0,H);
+  gradient.addColorStop(0,'#1a2844');
+  gradient.addColorStop(1,'#0a1428');
+  ctx.fillStyle=gradient;
+  ctx.fillRect(0,H/2,W,H/2);
+  
+  // Floor grid lines with blue tint
+  ctx.strokeStyle='rgba(100,140,200,0.18)';
+  ctx.lineWidth=1;
+  for(var i=0;i<8;i++){
+    var y=H/2+(i*H/16);
+    ctx.beginPath();
+    ctx.moveTo(0,y);
+    ctx.lineTo(W,y);
+    ctx.stroke();
+  }
+  
+  // Ceiling gradient with blue tint
+  var ceilGrad=ctx.createLinearGradient(0,0,0,H/2);
+  ceilGrad.addColorStop(0,'#0a1428');
+  ceilGrad.addColorStop(1,'#1a2438');
+  ctx.fillStyle=ceilGrad;
+  ctx.fillRect(0,0,W,H/2);
+  
+  // Cast rays
+  var rayAngle=player.angle-HALF_FOV;
+  for(var ray=0;ray<NUM_RAYS;ray++){
+    var dist=castRay(rayAngle);
+    var wallData=getWallColorAndPos(rayAngle);
+    
+    // Fix fisheye
+    dist*=Math.cos(rayAngle-player.angle);
+    
+    // Wall height (increased for more immersive view)
+    var wallHeight=Math.min(H*1.5,(H/dist)*1.1);
+    var top=H/2-wallHeight/2;
+    
+    // Distance fog
+    var fog=Math.max(0,1-dist/MAX_DEPTH);
+    var brightness=fog*(powerActive?0.7:1);
+    
+    // Draw wall column with brick texture
+    drawWallColumn(ray,top,wallHeight,wallData,brightness,dist);
+    
+    rayAngle+=DELTA_ANGLE;
+  }
+  
+  // Upward fog gradient with blue tint
+  var fogGrad=ctx.createLinearGradient(0,H/2,0,0);
+  fogGrad.addColorStop(0,'transparent');
+  fogGrad.addColorStop(0.3,'rgba(5,10,20,0.2)');
+  fogGrad.addColorStop(0.6,'rgba(10,15,30,0.5)');
+  fogGrad.addColorStop(1,'rgba(10,20,35,0.9)');
+  ctx.fillStyle=fogGrad;
+  ctx.fillRect(0,0,W,H/2);
+}
+
+function getWallColorAndPos(angle){
+  var sin=Math.sin(angle),cos=Math.cos(angle);
+  var x=player.x,y=player.y;
+  for(var depth=0;depth<MAX_DEPTH;depth+=0.05){
+    x+=cos*0.05;
+    y+=sin*0.05;
+    if(isWall(x,y)){
+      var gx=Math.floor(x),gy=Math.floor(y);
+      var dx=x-gx-0.5,dy=y-gy-0.5;
+      var horizontal=Math.abs(dx)>Math.abs(dy);
+      var offset=horizontal?(y%1):(x%1);
+      return {horizontal:horizontal,offset:offset,x:x,y:y};
+    }
+  }
+  return {horizontal:true,offset:0,x:x,y:y};
+}
+
+function drawWallColumn(x,top,height,wallData,brightness,dist){
+  // Base wall color with blue-gray holographic tint
+  var baseR=wallData.horizontal?55:65;
+  var baseG=wallData.horizontal?70:80;
+  var baseB=wallData.horizontal?95:105;
+  
+  // Apply brightness
+  var r=Math.floor(baseR*brightness);
+  var g=Math.floor(baseG*brightness);
+  var b=Math.floor(baseB*brightness);
+  
+  // Draw main wall with blue tint
+  ctx.fillStyle='rgb('+r+','+g+','+b+')';
+  ctx.fillRect(x,top,1,height);
+  
+  // Add panel lines (horizontal divisions)
+  if(height>20){
+    var panelHeight=height/8;
+    ctx.strokeStyle='rgba(80,120,180,'+(0.3*brightness)+')';
+    ctx.lineWidth=1;
+    for(var i=1;i<8;i++){
+      var lineY=top+i*panelHeight;
+      var offset=(Math.floor((wallData.offset*4+i*0.5))%2)*0.5;
+      if(Math.random()<0.8){
+        ctx.beginPath();
+        ctx.moveTo(x,lineY);
+        ctx.lineTo(x+1,lineY);
+        ctx.stroke();
+      }
+    }
+  }
+  
+  // Add vertical blue glow gradient for holographic effect
+  if(height>40){
+    var gradAlpha=0.18*brightness;
+    ctx.fillStyle='rgba(120,160,255,'+gradAlpha+')';
+    ctx.fillRect(x,top,1,height*0.3);
+  }
+}
+
+
+
+// --- RENDER SPRITES (enemies, nodes, exit) ---
+function renderSprites(){
+  var sprites=[];
+  
+  // Nodes
+  for(var i=0;i<nodes.length;i++){
+    var n=nodes[i];
+    if(!n.collected){
+      var dx=n.x-player.x,dy=n.y-player.y;
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      var angle=Math.atan2(dy,dx)-player.angle;
+      sprites.push({dist:dist,angle:angle,type:'node',obj:n});
+    }
+  }
+  
+  // Exit
+  if(exitNode.unlocked){
+    var edx=exitNode.x-player.x,edy=exitNode.y-player.y;
+    var edist=Math.sqrt(edx*edx+edy*edy);
+    var eangle=Math.atan2(edy,edx)-player.angle;
+    sprites.push({dist:edist,angle:eangle,type:'exit'});
+  }
+  
+  // Enemies
+  for(var e=0;e<enemies.length;e++){
+    var en=enemies[e];
+    var dx2=en.x-player.x,dy2=en.y-player.y;
+    var dist2=Math.sqrt(dx2*dx2+dy2*dy2);
+    var angle2=Math.atan2(dy2,dx2)-player.angle;
+    sprites.push({dist:dist2,angle:angle2,type:'enemy',obj:en});
+  }
+  
+  // Sort back to front
+  sprites.sort(function(a,b){return b.dist-a.dist;});
+  
+  for(var s=0;s<sprites.length;s++){
+    var sp=sprites[s];
+    
+    // Normalize angle to [-PI, PI]
+    while(sp.angle>Math.PI)sp.angle-=Math.PI*2;
+    while(sp.angle<-Math.PI)sp.angle+=Math.PI*2;
+    
+    if(Math.abs(sp.angle)>HALF_FOV+0.2)continue; // Out of view
+    
+    var screenX=W/2+(sp.angle/HALF_FOV)*(W/2);
+    var size=Math.min(H,(H/sp.dist)*0.4);
+    var fog2=Math.max(0,1-sp.dist/MAX_DEPTH);
+    
+    ctx.save();
+    ctx.globalAlpha=fog2*(powerActive?0.5:1);
+    
+    if(sp.type==='node'){
+      // Glowing blue data orb
+      var pulse=0.6+0.4*Math.sin(sp.obj.pulse);
+      var grad=ctx.createRadialGradient(screenX,H/2,0,screenX,H/2,size*0.5*pulse);
+      grad.addColorStop(0,'rgba(180,220,255,0.9)');
+      grad.addColorStop(0.5,'rgba(120,170,255,0.6)');
+      grad.addColorStop(1,'rgba(80,140,220,0)');
+      ctx.shadowBlur=22*pulse;
+      ctx.shadowColor='#88bbff';
+      ctx.fillStyle=grad;
+      ctx.beginPath();
+      ctx.arc(screenX,H/2,size*0.4*pulse,0,Math.PI*2);
+      ctx.fill();
+    }else if(sp.type==='exit'){
+      // Bright holographic portal
+      var pGrad=ctx.createRadialGradient(screenX,H/2,0,screenX,H/2,size*0.7);
+      pGrad.addColorStop(0,'rgba(200,230,255,0.95)');
+      pGrad.addColorStop(0.4,'rgba(140,190,255,0.7)');
+      pGrad.addColorStop(1,'rgba(80,140,240,0)');
+      ctx.shadowBlur=28;
+      ctx.shadowColor='#99ccff';
+      ctx.fillStyle=pGrad;
+      ctx.beginPath();
+      ctx.arc(screenX,H/2,size*0.6,0,Math.PI*2);
+      ctx.fill();
+    }else if(sp.type==='enemy'){
+      // Glowing humanoid silhouette like Lain figure
+      var col=sp.obj.type==='fast'?'rgba(255,200,150,':'rgba(255,150,120,';
+      var alpha=0.85;
+      
+      // Body glow
+      var bodyGrad=ctx.createRadialGradient(screenX,H/2,0,screenX,H/2,size*0.6);
+      bodyGrad.addColorStop(0,col+alpha+')');
+      bodyGrad.addColorStop(0.5,col+(alpha*0.5)+')');
+      bodyGrad.addColorStop(1,'rgba(255,100,80,0)');
+      ctx.shadowBlur=18;
+      ctx.shadowColor=sp.obj.type==='fast'?'#ffaa00':'#ff5555';
+      ctx.fillStyle=bodyGrad;
+      
+      // Draw humanoid shape
+      ctx.beginPath();
+      // Head
+      ctx.arc(screenX,H/2-size*0.35,size*0.15,0,Math.PI*2);
+      ctx.fill();
+      
+      // Body
+      ctx.fillRect(screenX-size*0.12,H/2-size*0.2,size*0.24,size*0.5);
+      
+      // Legs suggestion
+      ctx.fillRect(screenX-size*0.1,H/2+size*0.25,size*0.08,size*0.2);
+      ctx.fillRect(screenX+size*0.02,H/2+size*0.25,size*0.08,size*0.2);
+    }
+    
+    ctx.restore();
+  }
+}
+
+// --- MINIMAP ---
+function renderMinimap(){
+  var mmSize=60,mmX=W-mmSize-5,mmY=5;
+  var cellSize=mmSize/COLS;
+  
+  ctx.fillStyle='rgba(10,20,40,0.75)';
+  ctx.fillRect(mmX,mmY,mmSize,mmSize);
+  
+  // Walls
+  ctx.fillStyle='#4566a0';
+  for(var y=0;y<ROWS;y++){
+    for(var x=0;x<COLS;x++){
+      if(maze[y][x]===1)ctx.fillRect(mmX+x*cellSize,mmY+y*cellSize,cellSize,cellSize);
+    }
+  }
+  
+  // Nodes
+  ctx.fillStyle='#88bbff';
+  for(var i=0;i<nodes.length;i++){
+    if(!nodes[i].collected){
+      var n=nodes[i];
+      ctx.fillRect(mmX+n.x*cellSize-1,mmY+n.y*cellSize-1,2,2);
+    }
+  }
+  
+  // Exit
+  if(exitNode.unlocked){
+    ctx.fillStyle='#99ccff';
+    ctx.fillRect(mmX+exitNode.x*cellSize-1,mmY+exitNode.y*cellSize-1,3,3);
+  }
+  
+  // Enemies
+  ctx.fillStyle='#ff8888';
+  for(var e=0;e<enemies.length;e++){
+    var en=enemies[e];
+    ctx.fillRect(mmX+en.x*cellSize-1,mmY+en.y*cellSize-1,2,2);
+  }
+  
+  // Player
+  ctx.save();
+  ctx.translate(mmX+player.x*cellSize,mmY+player.y*cellSize);
+  ctx.rotate(player.angle);
+  ctx.fillStyle='#ffffff';
+  ctx.beginPath();
+  ctx.moveTo(3,0);
+  ctx.lineTo(-2,2);
+  ctx.lineTo(-2,-2);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+  
+  ctx.strokeStyle='#7799dd';
+  ctx.lineWidth=1;
+  ctx.strokeRect(mmX,mmY,mmSize,mmSize);
+}
+
+// --- HUD ---
+function renderHUD(){
+  ctx.fillStyle='rgba(15,25,45,0.75)';
+  ctx.fillRect(0,0,W,16);
+  
+  ctx.fillStyle='#aaccff';
+  ctx.font='bold 9px monospace';
+  ctx.fillText('SCR:'+score,6,11);
+  
+  var liveStr='LIF:';
+  for(var i=0;i<Math.max(3,lives);i++)liveStr+=(i<lives?'■':'□');
+  ctx.fillText(liveStr,W/2-30,11);
+  ctx.fillText(layerStr(floor),W-50,11);
+  
+  // Power bar with blue glow
+  var pct=powerCooldown>0?(1-powerCooldown/600):1;
+  ctx.fillStyle='rgba(30,50,80,0.6)';
+  ctx.fillRect(0,H-3,W,3);
+  ctx.fillStyle=powerActive?'rgba(180,200,255,0.8)':'rgba(120,160,220,0.6)';
+  ctx.fillRect(0,H-3,W*pct,3);
+}
+
+// --- PARTICLES OVERLAY ---
+function renderParticles(){
+  for(var i=0;i<particles.length;i++){
+    var p=particles[i];
+    var a=p.life/20;
+    ctx.fillStyle='rgba('+p.rgb+','+a+')';
+    ctx.fillRect(p.x-1,p.y-1,2,2);
+  }
+}
+
+// --- MAIN LOOP ---
+function loop(){
+  if(!running){
+    if(!started)requestAnimationFrame(drawTitle);
+    return;
+  }
+  frame++;
+  
+  // Ambient sound
+  sndAmbient();
+  
+  // Timers
+  if(powerActive){powerTimer--;if(powerTimer<=0)powerActive=false;}
+  if(powerCooldown>0)powerCooldown--;
+  if(flash>0)flash--;
+  
+  try{
+    updatePlayer();
+    updateEnemies();
+    updateNodes();
+    updateParticles();
+  }catch(err){
+    console.error('Game loop error:',err);
+  }
+  
+  // Render
+  ctx.save();
+  if(shake>0){
+    shake--;
+    ctx.translate(rnd(-2,2),rnd(-2,2));
+  }
+  
+  render3D();
+  renderSprites();
+  renderHUD();
+  renderParticles();
+  
+  if(flash>0){
+    ctx.fillStyle='rgba(255,255,255,'+(flash/20*0.15)+')';
+    ctx.fillRect(0,0,W,H);
+  }
+  
+  ctx.restore();
+  
+  // Status
+  powerDisplay.textContent=powerActive?'PWR:ACTIVE':powerCooldown>0?'PWR:'+(Math.floor((1-powerCooldown/600)*100))+'%':'PWR:READY [SPC]';
+  
+  // Update NAVI monitors
+  var sysLayer=document.getElementById('sys-layer');
+  var sysTime=document.getElementById('sys-time');
+  var entityCount=document.getElementById('entity-count');
+  var entityProx=document.getElementById('entity-prox');
+  var nodeCount=document.getElementById('node-count');
+  var exitStatus=document.getElementById('exit-status');
+  var isoStatus=document.getElementById('iso-status');
+  var isoFill=document.getElementById('iso-fill');
+  
+  if(sysLayer)sysLayer.textContent=(floor<10?'0':'')+floor;
+  if(sysTime){
+    var mins=Math.floor(frame/3600);
+    var secs=Math.floor((frame%3600)/60);
+    sysTime.textContent=(mins<10?'0':'')+mins+':'+(secs<10?'0':'')+secs;
+  }
+  if(entityCount)entityCount.textContent=enemies.length<10?'0'+enemies.length:enemies.length;
+  if(entityProx){
+    var closestDist=999;
+    for(var i=0;i<enemies.length;i++){
+      var dx=enemies[i].x-player.x,dy=enemies[i].y-player.y;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      if(d<closestDist)closestDist=d;
+    }
+    entityProx.textContent=closestDist<3?'CRITICAL':closestDist<5?'NEAR':'SAFE';
+    entityProx.style.color=closestDist<3?'#ff9999':closestDist<5?'#ffcc88':'#99ccff';
+  }
+  if(nodeCount){
+    var collected=nodes.filter(function(n){return n.collected;}).length;
+    nodeCount.textContent=collected+'/'+nodes.length;
+  }
+  if(exitStatus){
+    exitStatus.textContent=exitNode.unlocked?'UNLOCKED':'LOCKED';
+    exitStatus.style.color=exitNode.unlocked?'#99ccff':'#6688aa';
+  }
+  if(isoStatus){
+    isoStatus.textContent=powerActive?'STATUS: ACTIVE':'STATUS: '+(powerCooldown>0?'COOLDOWN':'STANDBY');
+    isoStatus.style.color=powerActive?'#cc99ff':powerCooldown>0?'#9999cc':'#7799dd';
+  }
+  if(isoFill){
+    var pct=powerCooldown>0?(1-powerCooldown/600)*100:100;
+    isoFill.style.width=pct+'%';
+    isoFill.style.background=powerActive?'linear-gradient(90deg,#bb99ff,#dd99ff)':powerCooldown>0?'linear-gradient(90deg,#8899cc,#99aadd)':'linear-gradient(90deg,#88bbff,#99ccff)';
+  }
+  
+  // Game over
+  if(lives<=0){
+    running=false;
+    ctx.fillStyle='rgba(10,20,35,0.95)';
+    ctx.fillRect(0,0,W,H);
+    ctx.save();
+    ctx.textAlign='center';
+    ctx.shadowBlur=24;
+    ctx.shadowColor='#ff9999';
+    ctx.fillStyle='#ffaaaa';
+    ctx.font='bold 16px "VT323",monospace';
+    ctx.fillText('CONNECTION LOST',W/2,H/2-20);
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#99ccff';
+    ctx.font='9px monospace';
+    ctx.fillText('SCORE: '+score+' LAYER: '+floor,W/2,H/2);
+    ctx.fillStyle='#7799dd';
+    ctx.font='8px monospace';
+    ctx.fillText('[ CLICK TO RECONNECT ]',W/2,H/2+20);
+    ctx.restore();
+    return;
+  }
+  
+  requestAnimationFrame(loop);
+}
+
+// --- TITLE SCREEN ---
+function drawTitle(){
+  // Blue holographic background gradient
+  var bgGrad=ctx.createLinearGradient(0,0,0,H);
+  bgGrad.addColorStop(0,'#0a1428');
+  bgGrad.addColorStop(1,'#1a2844');
+  ctx.fillStyle=bgGrad;
+  ctx.fillRect(0,0,W,H);
+  
+  var t=Date.now()*0.0005;
+  for(var i=0;i<5;i++){
+    var sc=((i/5+t)%1);sc=sc*sc;
+    ctx.strokeStyle='rgba(120,160,220,'+(sc*0.3)+')';
+    ctx.lineWidth=0.5;
+    ctx.strokeRect(W/2-sc*W*0.46,H/2-sc*H*0.46,sc*W*0.92,sc*H*0.92);
+  }
+  
+  ctx.save();
+  ctx.textAlign='center';
+  ctx.shadowBlur=24;
+  ctx.shadowColor='#88bbff';
+  ctx.fillStyle='#aaccff';
+  ctx.font='bold 24px "VT323",monospace';
+  ctx.fillText('PHANTOMa',W/2,H/2-46);
+  ctx.shadowBlur=0;
+  ctx.fillStyle='#7799dd';
+  ctx.font='8px monospace';
+  ctx.fillText('SERIAL EXPERIMENTS LAIN // COPLAND OS TAG GAME',W/2,H/2-26);
+  ctx.fillStyle='#99ccff';
+  ctx.font='9px monospace';
+  ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT DATA NODES',W/2,H/2-8);
+  ctx.fillText('W/S=MOVE  A/D=STRAFE  MOUSE=LOOK  ARROWS=TURN',W/2,H/2+7);
+  ctx.fillText('SPACE=ISOLATION.EXE  CLICK=POINTER LOCK',W/2,H/2+20);
+  ctx.fillStyle='#6688aa';
+  ctx.font='7px monospace';
+  ctx.fillText('TAG GAME // DON\'T GET CAUGHT // REACH THE EXIT',W/2,H/2+35);
+  ctx.fillStyle='#88bbff';
+  ctx.font='10px monospace';
+  ctx.shadowBlur=10;
+  ctx.shadowColor='#88bbff';
+  if(Math.sin(Date.now()*0.004)>0)ctx.fillText('[ CLICK TO ENTER THE WIRED ]',W/2,H/2+55);
+  if(highScore>0){
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#5577aa';
+    ctx.font='8px monospace';
+    ctx.fillText('HIGH SCORE: '+highScore,W/2,H/2+70);
+  }
+  ctx.restore();
+  
+  if(!started)requestAnimationFrame(drawTitle);
+}
+
+// --- RESET ---
+function reset(){
+  if(score>highScore)highScore=score;
+  score=0;
+  lives=3;
+  floor=1;
+  frame=0;
+  powerActive=false;
+  powerTimer=0;
+  powerCooldown=0;
+  shake=0;
+  flash=0;
+  transitioning=false;
+  layerLabel.textContent=layerStr(1);
+  running=true;
+  started=true;
+  spawnFloor();
+  requestAnimationFrame(loop);
+}
+
+// --- EVENTS ---
+cv.addEventListener('click',function(){
+  if(!started||!running){reset();return;}
+  // Request pointer lock for mouse look
+  if(running&&!pointerLocked){
+    cv.requestPointerLock=cv.requestPointerLock||cv.mozRequestPointerLock;
+    cv.requestPointerLock();
+  }
+});
+
+// Pointer lock change
+document.addEventListener('pointerlockchange',function(){
+  pointerLocked=document.pointerLockElement===cv||document.mozPointerLockElement===cv;
+},false);
+
+document.addEventListener('mozpointerlockchange',function(){
+  pointerLocked=document.pointerLockElement===cv||document.mozPointerLockElement===cv;
+},false);
+
+// Mouse movement for looking around
+document.addEventListener('mousemove',function(e){
+  if(pointerLocked&&running){
+    var movementX=e.movementX||e.mozMovementX||0;
+    player.angle+=movementX*player.mouseSensitivity;
+  }
+});
+
+document.addEventListener('keydown',function(e){
+  // Only handle game keys if login screen is hidden
+  if(loginScreen.style.display==='none'){
+    var k=e.key;
+    if(k==='ArrowUp'||k==='ArrowDown'||k==='ArrowLeft'||k==='ArrowRight'||
+       k==='w'||k==='W'||k==='a'||k==='A'||k==='s'||k==='S'||k==='d'||k==='D'||
+       k==='q'||k==='Q'||k==='e'||k==='E'||k===' '||k==='Shift'){
+      e.preventDefault();
+    }
+    if(k==='Shift')return;
+    keys[k]=true;
+    if(k===' ')usePower();
+  }
+});
+
+document.addEventListener('keyup',function(e){
+  if(loginScreen.style.display==='none'){
+    keys[e.key]=false;
+  }
+});
+
+// === LOGIN SYSTEM ===
+var loginScreen=document.getElementById('login-screen');
+var loginUser=document.getElementById('login-user');
+var loginPass=document.getElementById('login-pass');
+var loginBtn=document.getElementById('login-btn');
+var loginError=document.getElementById('login-error');
+var gameWrap=document.getElementById('wrap');
+
+function checkLogin(){
+  var user=loginUser.value.toUpperCase().trim();
+  var pass=loginPass.value.toUpperCase().trim();
+  
+  if(user==='L.A.I.N'&&pass==='PRESENT_DAY'){
+    loginError.classList.add('show');
+    loginError.style.color='#aaccff';
+    loginError.style.borderColor='rgba(120,170,255,0.6)';
+    loginError.style.textShadow='0 0 8px rgba(120,160,255,0.8)';
+    loginError.textContent='◈◈ ACCESS GRANTED ◇ INITIALIZING WIRED CONNECTION ◈◈';
+    setTimeout(function(){
+      loginScreen.style.display='none';
+      gameWrap.style.display='block';
+      initAudio();
+      drawTitle();
+    },1100);
+  }else{
+    loginError.classList.add('show');
+    loginError.style.color='#ffaaaa';
+    loginError.style.borderColor='rgba(255,100,120,0.6)';
+    loginError.style.textShadow='0 0 6px rgba(255,120,120,0.6)';
+    loginError.textContent='◈◈ ERROR: AUTHENTICATION FAILED ◇ INVALID CREDENTIALS ◈◈';
+    loginUser.value='';
+    loginPass.value='';
+    loginUser.focus();
+    setTimeout(function(){
+      loginError.classList.remove('show');
+    },3200);
+  }
+}
+
+loginBtn.addEventListener('click',checkLogin);
+loginUser.addEventListener('keypress',function(e){if(e.key==='Enter')checkLogin();});
+loginPass.addEventListener('keypress',function(e){if(e.key==='Enter')checkLogin();});
+
+loginUser.focus();
+})();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHANTOMa // LAYER:06</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    background:linear-gradient(135deg,#0a1428,#0f1a32);
+    display:flex;align-items:center;justify-content:center;
+    min-height:100vh;overflow:hidden;
+    font-family:'Share Tech Mono',monospace;color:#99ccff;
+  }
+  #wrap{text-align:center;user-select:none;}
+  #label{font-size:8px;letter-spacing:3px;color:#7799dd;padding:2px 0 4px;text-shadow:0 0 4px rgba(100,130,220,0.4);}
+  canvas{
+    border:1px solid #5577aa;border-top:2px solid #7799dd;
+    cursor:crosshair;display:block;margin:0 auto;background:#0a1428;
+    box-shadow:0 0 35px rgba(100,150,220,0.25);
+  }
+  #status-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:7px;letter-spacing:2px;color:#6688aa;margin-top:3px;
+    padding:0 2px;
+  }
+  #hint-text{color:#99ccff;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;text-shadow:0 0 4px rgba(120,160,255,0.5);}
+  /* Copland OS System Interface */
   .copland-window{position:absolute;pointer-events:none;background:linear-gradient(135deg,rgba(60,100,200,0.15),rgba(40,80,180,0.25));backdrop-filter:blur(8px);border:1px solid rgba(100,150,255,0.4);border-radius:4px;box-shadow:0 4px 20px rgba(50,100,220,0.3),inset 0 1px 0 rgba(150,180,255,0.3);animation:float-drift 8s ease-in-out infinite;}
   @keyframes float-drift{0%,100%{transform:translateY(0) translateX(0);}25%{transform:translateY(-3px) translateX(2px);}50%{transform:translateY(0) translateX(0);}75%{transform:translateY(3px) translateX(-2px);}}
   .copland-panel{position:absolute;pointer-events:none;font-family:'Share Tech Mono',monospace;font-size:6px;color:#88bbff;opacity:0.7;letter-spacing:1px;line-height:1.5;text-shadow:0 0 4px rgba(100,150,255,0.5);animation:subtle-pulse 4s ease-in-out infinite;}
