@@ -26,13 +26,32 @@
     padding:0 2px;
   }
   #hint-text{color:#aaaaaa;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;}
-  /* Lain decorative elements */
-  .lain-border{position:absolute;pointer-events:none;font-family:'VT323',monospace;color:#0088aa;font-size:9px;opacity:0.5;letter-spacing:2px;}
-  .lain-corner{position:absolute;pointer-events:none;width:40px;height:40px;border:1px solid #0088aa;opacity:0.3;}
-  .lain-scan{position:absolute;pointer-events:none;width:2px;height:100%;background:linear-gradient(to bottom,transparent,#00d4ff,transparent);animation:scan-horizontal 4s linear infinite;opacity:0.15;}
-  @keyframes scan-horizontal{0%{left:-2px;}100%{left:calc(100% + 2px);}}
-  .glitch-line{position:absolute;pointer-events:none;height:1px;background:#00ffaa;opacity:0.3;animation:glitch-shift 0.3s steps(4) infinite;}
-  @keyframes glitch-shift{0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
+  /* NAVI OS System Interface */
+  .navi-panel{position:absolute;pointer-events:none;font-family:'Share Tech Mono',monospace;font-size:6px;color:#0088aa;opacity:0.6;letter-spacing:1px;line-height:1.4;}
+  .navi-bracket{position:absolute;pointer-events:none;border:1px solid #0088aa;opacity:0.4;}
+  .navi-scan{position:absolute;pointer-events:none;width:2px;height:100%;background:linear-gradient(to bottom,transparent,#00d4ff,transparent);animation:scan-h 4s linear infinite;opacity:0.2;}
+  .navi-scan-v{position:absolute;pointer-events:none;height:2px;width:100%;background:linear-gradient(to right,transparent,#00ffaa,transparent);animation:scan-v 6s linear infinite;opacity:0.15;}
+  @keyframes scan-h{0%{left:-2px;}100%{left:calc(100% + 2px);}}
+  @keyframes scan-v{0%{top:-2px;}100%{top:calc(100% + 2px);}}
+  .navi-data{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:8px;color:#00ffaa;opacity:0.5;letter-spacing:2px;animation:data-blink 2s steps(2) infinite;}
+  @keyframes data-blink{0%,100%{opacity:0.5;}50%{opacity:0.2;}}
+  .navi-line{position:absolute;pointer-events:none;height:1px;background:#00d4ff;opacity:0.25;}
+  .navi-corner{position:absolute;pointer-events:none;width:20px;height:20px;}
+  .navi-corner::before,.navi-corner::after{content:'';position:absolute;background:#0088aa;opacity:0.5;}
+  .navi-corner::before{width:100%;height:1px;}
+  .navi-corner::after{width:1px;height:100%;}
+  .navi-corner.tl::before,.navi-corner.tl::after{top:0;left:0;}
+  .navi-corner.tr::before{top:0;right:0;}.navi-corner.tr::after{top:0;right:0;}
+  .navi-corner.bl::before{bottom:0;left:0;}.navi-corner.bl::after{bottom:0;left:0;}
+  .navi-corner.br::before{bottom:0;right:0;}.navi-corner.br::after{bottom:0;right:0;}
+  .navi-monitor{position:absolute;pointer-events:none;border:1px solid #0088aa;padding:4px 6px;background:rgba(0,10,20,0.5);font-family:'Share Tech Mono',monospace;font-size:6px;color:#00d4ff;opacity:0.6;letter-spacing:1px;line-height:1.5;}
+  .navi-grid{position:absolute;pointer-events:none;opacity:0.1;background-image:linear-gradient(#0088aa 1px,transparent 1px),linear-gradient(90deg,#0088aa 1px,transparent 1px);background-size:10px 10px;}
+  @keyframes pulse-glow{0%,100%{opacity:0.3;text-shadow:0 0 3px #00d4ff;}50%{opacity:0.6;text-shadow:0 0 8px #00d4ff,0 0 12px #00d4ff;}}
+  .protocol-stream{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:7px;color:#00ffaa;opacity:0.3;letter-spacing:1px;animation:scroll-up 15s linear infinite;white-space:nowrap;}
+  @keyframes scroll-up{0%{transform:translateY(0);}100%{transform:translateY(-100%);}}
+  /* Login NAVI interface */
+  .navi-boot{font-family:'VT323',monospace;font-size:8px;color:#00d4ff;opacity:0.7;letter-spacing:1px;line-height:1.6;text-align:left;}
+  .login-grid{position:absolute;inset:0;pointer-events:none;opacity:0.08;background-image:repeating-linear-gradient(0deg,#00d4ff 0px,transparent 1px,transparent 20px),repeating-linear-gradient(90deg,#00d4ff 0px,transparent 1px,transparent 20px);}
   /* Scanline overlay */
   #wrap::after{
     content:'';position:fixed;inset:0;pointer-events:none;z-index:10;
@@ -48,44 +67,155 @@
   }
   /* Login input focus */
   #login-user:focus,#login-pass:focus{
-    border-color:#888888 !important;
-    box-shadow:0 0 12px rgba(160,160,180,0.4);
+    border-color:#00d4ff !important;
+    box-shadow:0 0 15px rgba(0,212,255,0.4);
+    background:rgba(0,25,50,0.7) !important;
   }
   #login-btn:hover{
-    background:#2a2a3e !important;
-    box-shadow:0 0 16px rgba(200,200,220,0.3);
+    background:rgba(0,50,90,0.9) !important;
+    border-color:#00d4ff !important;
+    box-shadow:0 0 25px rgba(0,212,255,0.5);
+    transform:translateY(-1px);
   }
+  #login-error.show{opacity:1 !important;}
 </style>
 </head>
 <body>
-<!-- LOGIN SCREEN -->
-<div id="login-screen" style="position:fixed;inset:0;background:#0a0a14;display:flex;align-items:center;justify-content:center;z-index:1000;">
-  <div style="text-align:center;padding:30px;border:1px solid #444444;border-top:2px solid #888888;background:rgba(20,20,30,0.9);box-shadow:0 0 40px rgba(100,100,120,0.2);min-width:340px;">
-    <div style="font-family:'VT323',monospace;font-size:28px;color:#ffffff;text-shadow:0 0 20px #ffffff;margin-bottom:8px;letter-spacing:3px;">PHANTOMa</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#aaaaaa;letter-spacing:2px;margin-bottom:20px;">// AUTHORIZATION REQUIRED //</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#888888;margin-bottom:14px;line-height:1.6;">WIRED ACCESS PROTOCOL<br>CREDENTIALS HIDDEN ON PROFILE<br>SEEK THE DEEPER LAYERS</div>
-    <input type="text" id="login-user" placeholder="USERNAME" style="width:100%;padding:8px 10px;margin-bottom:10px;background:#14141e;border:1px solid #444444;color:#ffffff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;" />
-    <input type="password" id="login-pass" placeholder="PASSWORD" style="width:100%;padding:8px 10px;margin-bottom:14px;background:#14141e;border:1px solid #444444;color:#ffffff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;" />
-    <button id="login-btn" style="width:100%;padding:10px;background:#1a1a2e;border:1px solid #666666;border-top:2px solid #aaaaaa;color:#ffffff;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;cursor:pointer;transition:all 0.3s;text-shadow:0 0 8px #ffffff;">► CONNECT TO WIRED</button>
-    <div id="login-error" style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#ff8888;margin-top:10px;min-height:14px;letter-spacing:1px;"></div>
+<!-- NAVI OS LOGIN SCREEN -->
+<div id="login-screen" style="position:fixed;inset:0;background:#000008;display:flex;align-items:center;justify-content:center;z-index:1000;overflow:hidden;">
+  <div class="login-grid"></div>
+  <!-- Corner brackets -->
+  <div style="position:absolute;top:20px;left:20px;width:60px;height:60px;border-left:2px solid #0088aa;border-top:2px solid #0088aa;opacity:0.4;"></div>
+  <div style="position:absolute;top:20px;right:20px;width:60px;height:60px;border-right:2px solid #0088aa;border-top:2px solid #0088aa;opacity:0.4;"></div>
+  <div style="position:absolute;bottom:20px;left:20px;width:60px;height:60px;border-left:2px solid #0088aa;border-bottom:2px solid #0088aa;opacity:0.4;"></div>
+  <div style="position:absolute;bottom:20px;right:20px;width:60px;height:60px;border-right:2px solid #0088aa;border-bottom:2px solid #0088aa;opacity:0.4;"></div>
+  <!-- System readouts -->
+  <div style="position:absolute;top:30px;left:50%;transform:translateX(-50%);font-family:'VT323',monospace;font-size:10px;color:#00d4ff;opacity:0.6;letter-spacing:3px;text-shadow:0 0 8px #00d4ff;">N A V I   O S   v7.13</div>
+  <div style="position:absolute;top:90px;left:30px;font-family:'Share Tech Mono',monospace;font-size:6px;color:#00ffaa;opacity:0.5;letter-spacing:1px;line-height:1.8;text-align:left;">
+    [SYS] BOOTING...<br>
+    [NET] SCANNING WIRED<br>
+    [MEM] 2048MB OK<br>
+    [CPU] PROTOCOL_7 READY<br>
+    [STATUS] AWAITING AUTH
   </div>
+  <div style="position:absolute;top:90px;right:30px;font-family:'Share Tech Mono',monospace;font-size:6px;color:#0088aa;opacity:0.4;letter-spacing:1px;line-height:1.8;text-align:right;">
+    IPv4: 192.168.1.###<br>
+    PORT: 7777 [OPEN]<br>
+    PROTO: LAYER_07<br>
+    CIPHER: PHANTOMa<br>
+    CONN: DIRECT
+  </div>
+  <!-- Main panel -->
+  <div style="position:relative;text-align:center;padding:40px 35px;border:2px solid #0088aa;border-left:3px solid #00d4ff;border-top:3px solid #00d4ff;background:rgba(0,8,18,0.85);box-shadow:0 0 50px rgba(0,136,170,0.3),inset 0 0 30px rgba(0,0,20,0.8);min-width:420px;">
+    <!-- Header -->
+    <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#000008;padding:0 10px;font-family:'Share Tech Mono',monospace;font-size:7px;color:#00ffaa;letter-spacing:2px;opacity:0.8;">◄ WIRED://AUTH.PROTOCOL ►</div>
+    <div style="font-family:'VT323',monospace;font-size:32px;color:#00d4ff;text-shadow:0 0 15px #00d4ff,0 0 30px rgba(0,212,255,0.4);margin-bottom:6px;letter-spacing:5px;animation:pulse-glow 3s ease-in-out infinite;">PHANTOMa</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#0088aa;letter-spacing:2px;margin-bottom:8px;opacity:0.7;">// LAYER:06 DEEP ACCESS GATE //</div>
+    <div style="width:100%;height:1px;background:linear-gradient(to right,transparent,#0088aa,transparent);margin:12px 0;opacity:0.5;"></div>
+    <!-- Boot sequence -->
+    <div class="navi-boot" style="margin:15px 0;text-align:left;padding-left:10px;">
+      ► INITIALIZING WIRED CONNECTION...<br>
+      ► CREDENTIALS REQUIRED FOR DEEP LAYER ACCESS<br>
+      ► AUTHENTICATION DATA HIDDEN IN PROFILE SUBSTRATE<br>
+      ► SEEK PROTOCOL_7 AUTHORIZATION KEYS
+    </div>
+    <div style="width:100%;height:1px;background:linear-gradient(to right,transparent,#00ffaa,transparent);margin:12px 0;opacity:0.3;"></div>
+    <!-- Input fields -->
+    <div style="position:relative;margin:10px 0;">
+      <div style="position:absolute;left:-25px;top:50%;transform:translateY(-50%);font-family:'VT323',monospace;font-size:8px;color:#00ffaa;opacity:0.6;">►</div>
+      <input type="text" id="login-user" placeholder="USER_ID" style="width:100%;padding:10px 12px;background:rgba(0,18,40,0.6);border:1px solid #0088aa;border-left:2px solid #00d4ff;color:#00d4ff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;box-shadow:inset 0 0 15px rgba(0,0,20,0.8);" />
+    </div>
+    <div style="position:relative;margin:10px 0;">
+      <div style="position:absolute;left:-25px;top:50%;transform:translateY(-50%);font-family:'VT323',monospace;font-size:8px;color:#00ffaa;opacity:0.6;">►</div>
+      <input type="password" id="login-pass" placeholder="AUTH_KEY" style="width:100%;padding:10px 12px;background:rgba(0,18,40,0.6);border:1px solid #0088aa;border-left:2px solid #00d4ff;color:#00d4ff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;box-shadow:inset 0 0 15px rgba(0,0,20,0.8);" />
+    </div>
+    <!-- Connect button -->
+    <button id="login-btn" style="width:100%;padding:12px;margin-top:15px;background:rgba(0,30,60,0.8);border:2px solid #0088aa;border-left:3px solid #00ffaa;color:#00d4ff;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:4px;cursor:pointer;transition:all 0.3s;text-shadow:0 0 8px #00d4ff;box-shadow:0 0 15px rgba(0,136,170,0.2);position:relative;overflow:hidden;">
+      <span style="position:relative;z-index:2;">◄◄ ESTABLISH WIRED CONNECTION ►►</span>
+    </button>
+    <!-- Error display -->
+    <div id="login-error" style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#ff8888;margin-top:12px;min-height:16px;letter-spacing:1px;text-shadow:0 0 5px #ff8888;background:rgba(40,0,0,0.3);padding:4px;border-left:2px solid #ff003c;opacity:0;transition:opacity 0.3s;"></div>
+    <!-- Footer -->
+    <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:#000008;padding:0 10px;font-family:'VT323',monospace;font-size:6px;color:#0088aa;letter-spacing:2px;opacity:0.5;">PRESENT DAY // PRESENT TIME</div>
+  </div>
+  <!-- Scan lines -->
+  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,0.03) 2px,rgba(0,212,255,0.03) 4px);"></div>
+  <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,transparent,#00d4ff,transparent);animation:scan-v 5s linear infinite;opacity:0.3;"></div>
+  <div style="position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(to bottom,transparent,#00ffaa,transparent);animation:scan-v 7s linear infinite;opacity:0.2;animation-delay:-2s;"></div>
 </div>
 <div id="wrap" style="display:none;position:relative;">
-  <!-- Lain decorative elements -->
-  <div style="position:absolute;top:-25px;left:0;right:0;font-family:'VT323',monospace;font-size:7px;color:#0088aa;opacity:0.4;letter-spacing:3px;text-align:center;">
-    ▓▓▓▓ WIRED://DIRECT.CONNECT ▓▓▓▓
+  <!-- NAVI OS System Interface -->
+  <!-- Top header bar -->
+  <div style="position:absolute;top:-40px;left:-150px;right:-150px;height:30px;border:1px solid #0088aa;background:rgba(0,10,20,0.4);display:flex;align-items:center;justify-content:space-between;padding:0 15px;font-family:'Share Tech Mono',monospace;font-size:6px;color:#00d4ff;letter-spacing:1px;opacity:0.7;">
+    <span>◄ NAVI.OS v7.13 PROTOCOL_7</span>
+    <span>PHANTOMa // WIRED://DIRECT.LAYER_06</span>
+    <span>CONNECTION: ACTIVE ►</span>
   </div>
-  <div class="lain-corner" style="top:68px;left:-1px;border-right:none;border-bottom:none;"></div>
-  <div class="lain-corner" style="top:68px;right:-1px;border-left:none;border-bottom:none;"></div>
-  <div class="lain-corner" style="bottom:33px;left:-1px;border-right:none;border-top:none;"></div>
-  <div class="lain-corner" style="bottom:33px;right:-1px;border-left:none;border-top:none;"></div>
-  <div class="lain-border" style="top:65px;left:-80px;transform:rotate(-90deg);">[SYS:LAYER.07]</div>
-  <div class="lain-border" style="top:65px;right:-80px;transform:rotate(90deg);">[NET:PROTOCOL]</div>
-  <div class="lain-scan" style="animation-delay:-1.5s;"></div>
-  <div class="glitch-line" style="top:25%;width:100%;left:0;"></div>
-  <div class="glitch-line" style="top:75%;width:100%;left:0;animation-delay:-0.15s;"></div>
-  <div style="position:absolute;bottom:-22px;left:0;right:0;font-family:'Share Tech Mono',monospace;font-size:6px;color:#0088aa;opacity:0.35;letter-spacing:2px;text-align:center;">
-    ░▒▓ PRESENT DAY // PRESENT TIME ▓▒░
+  <!-- Corner brackets large -->
+  <div class="navi-corner tl" style="top:60px;left:-8px;"></div>
+  <div class="navi-corner tr" style="top:60px;right:-8px;"></div>
+  <div class="navi-corner bl" style="bottom:25px;left:-8px;"></div>
+  <div class="navi-corner br" style="bottom:25px;right:-8px;"></div>
+  <!-- Additional corner details -->
+  <div class="navi-bracket" style="top:65px;left:-5px;width:30px;height:30px;border-right:none;border-bottom:none;"></div>
+  <div class="navi-bracket" style="top:65px;right:-5px;width:30px;height:30px;border-left:none;border-bottom:none;"></div>
+  <div class="navi-bracket" style="bottom:30px;left:-5px;width:30px;height:30px;border-right:none;border-top:none;"></div>
+  <div class="navi-bracket" style="bottom:30px;right:-5px;width:30px;height:30px;border-left:none;border-top:none;"></div>
+  <!-- Left system monitor -->
+  <div class="navi-monitor" style="top:100px;left:-160px;width:140px;">
+    <div style="color:#00ffaa;margin-bottom:3px;font-weight:bold;">► SYS.STATUS</div>
+    CPU: ████████░░ 87%<br>
+    MEM: ███████░░░ 73%<br>
+    NET: ██████████ 100%<br>
+    <div style="margin-top:4px;color:#00d4ff;">LAYER: <span id="sys-layer">01</span></div>
+    <div style="color:#0088aa;margin-top:2px;font-size:5px;">UPTIME: <span id="sys-time">00:00</span></div>
+  </div>
+  <!-- Left protocol stream -->
+  <div class="protocol-stream" style="top:250px;left:-155px;width:130px;height:150px;overflow:hidden;">
+    <div>PROTO://LAYER_07<br>CIPHER:PHANTOMa<br>AUTH:VERIFIED<br>NODE:ACTIVE<br>SIGNAL:STRONG<br>PACKET:FLOW<br>DATA:SYNC<br>WIRED:OPEN<br>ACCESS:DEEP<br>GATE:UNLOCKED<br>PROTO://LAYER_07<br>CIPHER:PHANTOMa<br>AUTH:VERIFIED<br>NODE:ACTIVE<br>SIGNAL:STRONG</div>
+  </div>
+  <!-- Right entity monitor -->
+  <div class="navi-monitor" style="top:100px;right:-160px;width:140px;">
+    <div style="color:#ff8888;margin-bottom:3px;font-weight:bold;">► ENTITIES</div>
+    DETECTED: <span id="entity-count" style="color:#ff003c;">##</span><br>
+    PROXIMITY: <span id="entity-prox" style="color:#ffaa00;">NEAR</span><br>
+    THREAT: <span style="color:#ff8888;">HIGH</span><br>
+    <div style="margin-top:4px;color:#00ffaa;">NODES: <span id="node-count">##</span></div>
+    <div style="color:#00d4ff;margin-top:2px;">EXIT: <span id="exit-status" style="color:#666666;">LOCKED</span></div>
+  </div>
+  <!-- Right network activity -->
+  <div class="navi-panel" style="top:250px;right:-155px;width:130px;line-height:1.6;">
+    <div style="color:#00d4ff;margin-bottom:3px;">◄ NET.ACTIVITY ►</div>
+    <div style="font-size:5px;color:#00ffaa;opacity:0.4;">
+    TX: ▓▓▓░░░░░░░<br>
+    RX: ▓▓▓▓▓▓░░░░<br>
+    192.168.1.###<br>
+    PORT: 7777 OPEN<br>
+    PING: 12ms<br>
+    JITTER: 3ms<br>
+    LOSS: 0.0%
+    </div>
+  </div>
+  <!-- Scan lines -->
+  <div class="navi-scan" style="animation-delay:0s;"></div>
+  <div class="navi-scan" style="animation-delay:-2s;opacity:0.1;"></div>
+  <div class="navi-scan-v" style="animation-delay:-1s;"></div>
+  <!-- Data streams top -->
+  <div class="navi-data" style="top:52px;left:100px;">01101000</div>
+  <div class="navi-data" style="top:52px;right:100px;animation-delay:-1s;">11010011</div>
+  <!-- Grid overlays -->
+  <div class="navi-grid" style="top:68px;left:-10px;width:100px;height:100px;"></div>
+  <div class="navi-grid" style="top:68px;right:-10px;width:100px;height:100px;"></div>
+  <!-- Horizontal divider lines -->
+  <div class="navi-line" style="top:55px;left:-150px;right:-150px;"></div>
+  <div style="position:absolute;bottom:-30px;left:-150px;right:-150px;height:20px;border-top:1px solid #0088aa;background:rgba(0,10,20,0.3);display:flex;align-items:center;justify-content:center;font-family:'VT323',monospace;font-size:7px;color:#0088aa;letter-spacing:2px;opacity:0.5;">
+    ░▒▓ PRESENT_DAY.PRESENT_TIME // CLOSE_THE_WORLD.OPEN_THE_NEXT ▓▒░
+  </div>
+  <!-- Power/Isolation status -->
+  <div class="navi-panel" style="bottom:-120px;left:50%;transform:translateX(-50%);width:200px;text-align:center;padding:8px;border:1px solid #0088aa;background:rgba(0,8,18,0.6);">
+    <div style="color:#bb88ff;font-weight:bold;margin-bottom:3px;">◄ ISOLATION.EXE ►</div>
+    <div id="iso-status" style="font-size:5px;color:#8888aa;">STATUS: STANDBY</div>
+    <div id="iso-bar" style="margin-top:4px;height:3px;background:#1a1a2e;border:1px solid #444444;position:relative;"><div style="position:absolute;left:0;top:0;height:100%;width:0%;background:#00ffaa;transition:width 0.3s;" id="iso-fill"></div></div>
   </div>
   <div id="label">● ○ ○&nbsp;&nbsp;PHANTOMa&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
   <canvas id="lain-c" width="960" height="600"></canvas>
@@ -759,6 +889,51 @@ function loop(){
   // Status
   powerDisplay.textContent=powerActive?'PWR:ACTIVE':powerCooldown>0?'PWR:'+(Math.floor((1-powerCooldown/600)*100))+'%':'PWR:READY [SPC]';
   
+  // Update NAVI monitors
+  var sysLayer=document.getElementById('sys-layer');
+  var sysTime=document.getElementById('sys-time');
+  var entityCount=document.getElementById('entity-count');
+  var entityProx=document.getElementById('entity-prox');
+  var nodeCount=document.getElementById('node-count');
+  var exitStatus=document.getElementById('exit-status');
+  var isoStatus=document.getElementById('iso-status');
+  var isoFill=document.getElementById('iso-fill');
+  
+  if(sysLayer)sysLayer.textContent=(floor<10?'0':'')+floor;
+  if(sysTime){
+    var mins=Math.floor(frame/3600);
+    var secs=Math.floor((frame%3600)/60);
+    sysTime.textContent=(mins<10?'0':'')+mins+':'+(secs<10?'0':'')+secs;
+  }
+  if(entityCount)entityCount.textContent=enemies.length<10?'0'+enemies.length:enemies.length;
+  if(entityProx){
+    var closestDist=999;
+    for(var i=0;i<enemies.length;i++){
+      var dx=enemies[i].x-player.x,dy=enemies[i].y-player.y;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      if(d<closestDist)closestDist=d;
+    }
+    entityProx.textContent=closestDist<3?'CRITICAL':closestDist<5?'NEAR':'SAFE';
+    entityProx.style.color=closestDist<3?'#ff003c':closestDist<5?'#ffaa00':'#00ffaa';
+  }
+  if(nodeCount){
+    var collected=nodes.filter(function(n){return n.collected;}).length;
+    nodeCount.textContent=collected+'/'+nodes.length;
+  }
+  if(exitStatus){
+    exitStatus.textContent=exitNode.unlocked?'UNLOCKED':'LOCKED';
+    exitStatus.style.color=exitNode.unlocked?'#00ffaa':'#666666';
+  }
+  if(isoStatus){
+    isoStatus.textContent=powerActive?'STATUS: ACTIVE':'STATUS: '+(powerCooldown>0?'COOLDOWN':'STANDBY');
+    isoStatus.style.color=powerActive?'#bb88ff':powerCooldown>0?'#8888aa':'#666666';
+  }
+  if(isoFill){
+    var pct=powerCooldown>0?(1-powerCooldown/600)*100:100;
+    isoFill.style.width=pct+'%';
+    isoFill.style.background=powerActive?'#bb88ff':powerCooldown>0?'#8888aa':'#00ffaa';
+  }
+  
   // Game over
   if(lives<=0){
     running=false;
@@ -817,14 +992,17 @@ function drawTitle(){
   ctx.font='9px monospace';
   ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT SIGNAL NODES',W/2,H/2-8);
   ctx.fillText('W/S=MOVE  A/D=STRAFE  MOUSE=LOOK  ARROWS=TURN',W/2,H/2+7);
-  ctx.fillText('SPACE=ISOLATION.EXE (SLOW ENTITIES)',W/2,H/2+20);
+  ctx.fillText('SPACE=ISOLATION.EXE  CLICK=POINTER LOCK',W/2,H/2+20);
   ctx.fillStyle='#888888';
   ctx.font='7px monospace';
   ctx.fillText('TAG GAME // DON\'T GET CAUGHT // REACH THE EXIT',W/2,H/2+35);
-  ctx.fillStyle='#ffffff';
+  ctx.fillStyle='#00d4ff';
   ctx.font='10px monospace';
+  ctx.shadowBlur=8;
+  ctx.shadowColor='#00d4ff';
   if(Math.sin(Date.now()*0.004)>0)ctx.fillText('[ CLICK TO ENTER THE WIRED ]',W/2,H/2+55);
   if(highScore>0){
+    ctx.shadowBlur=0;
     ctx.fillStyle='#666666';
     ctx.font='8px monospace';
     ctx.fillText('HIGH SCORE: '+highScore,W/2,H/2+70);
@@ -914,21 +1092,28 @@ function checkLogin(){
   var user=loginUser.value.toUpperCase().trim();
   var pass=loginPass.value.toUpperCase().trim();
   
-  if(user==='L.A.I.N'&&pass==='PRESENT_DAY'){
-    loginError.style.color='#aaffaa';
-    loginError.textContent='// ACCESS GRANTED // ENTERING WIRED //';
+  if(user==='LAIN'&&pass==='PRESENT_DAY'){
+    loginError.classList.add('show');
+    loginError.style.color='#00ffaa';
+    loginError.style.borderColor='#00ffaa';
+    loginError.textContent='►► ACCESS GRANTED // INITIALIZING WIRED CONNECTION ◄◄';
     setTimeout(function(){
       loginScreen.style.display='none';
       gameWrap.style.display='block';
       initAudio();
       drawTitle();
-    },800);
+    },1000);
   }else{
+    loginError.classList.add('show');
     loginError.style.color='#ff8888';
-    loginError.textContent='// ACCESS DENIED // CREDENTIALS INVALID //';
+    loginError.style.borderColor='#ff003c';
+    loginError.textContent='►► ERROR: AUTHENTICATION FAILED // INVALID CREDENTIALS ◄◄';
     loginUser.value='';
     loginPass.value='';
     loginUser.focus();
+    setTimeout(function(){
+      loginError.classList.remove('show');
+    },3000);
   }
 }
 
