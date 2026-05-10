@@ -265,8 +265,8 @@ function updatePlayer(){
     if(!isWall(newX,player.y)){player.x=newX;moved=true;}
     if(!isWall(player.x,newY)){player.y=newY;moved=true;}
   }
-  // Footstep sound
-  if(moved&&frame-lastStepFrame>8){sndStep();lastStepFrame=frame;}
+  // Footstep sound (play less frequently)
+  if(moved&&frame-lastStepFrame>25){sndStep();lastStepFrame=frame;}
 }
 
 // --- ENEMY AI ---
