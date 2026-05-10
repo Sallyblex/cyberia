@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBERIA.EXE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+  html, body {
+    margin: 0; padding: 0;
+    background: #00000d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #wrap {
+    font-family: 'Share Tech Mono', monospace;
+    text-align: center;
+  }
+  #label {
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: #0088aa;
+    padding: 2px 0 4px;
+  }
+  canvas {
+    border: 1px solid #003d6e;
+    border-top: 2px solid #0066aa;
+    cursor: none;
+    display: block;
+    margin: 0 auto;
+    background: #00000d;
+  }
+  #hint {
+    font-size: 7px;
+    color: #1a3548;
+    letter-spacing: 2px;
+    margin-top: 3px;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="label">● ○ ○&nbsp;&nbsp;CYBERIA.EXE&nbsp;&nbsp;//&nbsp;LAYER:06</div>
+  <canvas id="lain-c" width="280" height="200"></canvas>
+  <div id="hint">[ CLICK TO FIRE — ELIMINATE THE ENTITIES ]</div>
+</div>
+<script>
+(function(){
+var cv=document.getElementById('lain-c'),ctx=cv.getContext('2d');
+var W=cv.width,H=cv.height,CX=W/2,CY=H/2;
+var score=0,lives=3,frame=0,running=true;
+var enemies=[],parts=[];
+var mx=CX,my=CY;
+function rnd(a,b){return a+Math.random()*(b-a);}
+function spawn(){
+  var a=rnd(0,Math.PI*2),d=rnd(18,52);
+  enemies.push({x:CX+Math.cos(a)*d*0.4,y:CY+Math.sin(a)*d*0.4,s:3,max:rnd(22,30),spd:rnd(0.25,0.45)});
+}
+function drawTunnel(){
+  var t=frame*0.007;
+  for(var i=0;i<7;i++){
+    var depth=((i/7+t)%1),sc=depth*depth;
+    var w=sc*W*0.9,h=sc*H*0.9;
+    ctx.strokeStyle='rgba(0,180,255,'+(sc*0.55)+')';
+    ctx.lineWidth=0.6;ctx.strokeRect(CX-w/2,CY-h/2,w,h);
+  }
+  ctx.strokeStyle='rgba(0,80,140,0.15)';ctx.lineWidth=0.5;
+  [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(function(p){
+    ctx.beginPath();ctx.moveTo(CX,CY);
+    ctx.lineTo(CX+p[0]*W/2,CY+p[1]*H/2);ctx.stroke();
+  });
+}
+function drawEnemy(e){
+  ctx.save();ctx.translate(e.x,e.y);
+  ctx.shadowBlur=10;ctx.shadowColor='#ff003c';
+  ctx.strokeStyle='#ff003c';ctx.lineWidth=1.2;
+  ctx.beginPath();
+  ctx.moveTo(0,-e.s);ctx.lineTo(e.s,0);ctx.lineTo(0,e.s);ctx.lineTo(-e.s,0);ctx.closePath();ctx.stroke();
+  ctx.beginPath();ctx.moveTo(-e.s*.6,0);ctx.lineTo(e.s*.6,0);ctx.moveTo(0,-e.s*.6);ctx.lineTo(0,e.s*.6);ctx.stroke();
+  ctx.restore();
+}
+function drawCross(){
+  ctx.strokeStyle='rgba(0,212,255,0.9)';ctx.lineWidth=1;
+  ctx.shadowBlur=6;ctx.shadowColor='#00d4ff';
+  ctx.beginPath();
+  ctx.moveTo(mx-12,my);ctx.lineTo(mx-4,my);
+  ctx.moveTo(mx+4,my);ctx.lineTo(mx+12,my);
+  ctx.moveTo(mx,my-12);ctx.lineTo(mx,my-4);
+  ctx.moveTo(mx,my+4);ctx.lineTo(mx,my+12);
+  ctx.stroke();
+  ctx.beginPath();ctx.arc(mx,my,4,0,Math.PI*2);ctx.stroke();
+  ctx.shadowBlur=0;
+}
+function drawHUD(){
+  ctx.fillStyle='rgba(0,0,13,0.75)';ctx.fillRect(0,0,W,16);
+  ctx.fillStyle='#00d4ff';ctx.font='bold 9px monospace';
+  ctx.fillText('SCR:'+score,6,12);
+  var l='';for(var i=0;i<3;i++)l+=(i<lives?'■':'□');
+  ctx.fillText('LIF:'+l,W-62,12);
+}
+function shoot(){
+  for(var i=0;i<enemies.length;i++){
+    var e=enemies[i],dx=e.x-mx,dy=e.y-my;
+    if(Math.sqrt(dx*dx+dy*dy)<e.s+10){
+      enemies.splice(i,1);score+=10;
+      for(var p=0;p<8;p++){
+        var a=rnd(0,Math.PI*2);
+        parts.push({x:e.x,y:e.y,vx:Math.cos(a)*rnd(1,3),vy:Math.sin(a)*rnd(1,3),l:18});
+      }
+      return;
+    }
+  }
+}
+function reset(){score=0;lives=3;frame=0;enemies=[];parts=[];running=true;spawn();spawn();requestAnimationFrame(loop);}
+function loop(){
+  if(!running)return;
+  frame++;
+  ctx.fillStyle='rgba(0,0,13,0.82)';ctx.fillRect(0,0,W,H);
+  drawTunnel();
+  if(frame%80===0)spawn();
+  for(var i=enemies.length-1;i>=0;i--){
+    var e=enemies[i];
+    e.s+=e.spd;e.x+=(CX-e.x)*.002;e.y+=(CY-e.y)*.002;
+    if(e.s>=e.max){enemies.splice(i,1);lives=Math.max(0,lives-1);continue;}
+    drawEnemy(e);
+  }
+  for(var p=parts.length-1;p>=0;p--){
+    var pt=parts[p];pt.x+=pt.vx;pt.y+=pt.vy;pt.l--;
+    ctx.fillStyle='rgba(0,212,255,'+(pt.l/18)+')';
+    ctx.fillRect(pt.x-1,pt.y-1,2,2);
+    if(pt.l<=0)parts.splice(p,1);
+  }
+  drawCross();drawHUD();
+  if(lives<=0){
+    running=false;
+    ctx.fillStyle='rgba(0,0,13,0.8)';ctx.fillRect(0,0,W,H);
+    ctx.shadowBlur=18;ctx.shadowColor='#ff003c';
+    ctx.fillStyle='#ff003c';ctx.font='bold 13px monospace';ctx.textAlign='center';
+    ctx.fillText('CONNECTION LOST',CX,CY-12);
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#00d4ff';ctx.font='9px monospace';
+    ctx.fillText('SCORE: '+score,CX,CY+6);
+    ctx.fillStyle='#0088aa';
+    ctx.fillText('[ CLICK TO RECONNECT ]',CX,CY+22);
+    ctx.textAlign='left';
+    return;
+  }
+  requestAnimationFrame(loop);
+}
+cv.addEventListener('mousemove',function(e){
+  var r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;
+});
+cv.addEventListener('click',function(){if(!running){reset();return;}shoot();});
+spawn();spawn();loop();
+})();
+</script>
+</body>
+</html>
