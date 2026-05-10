@@ -8,24 +8,24 @@
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{
-    background:#0a0a14;
+    background:linear-gradient(135deg,#0a1428,#0f1a32);
     display:flex;align-items:center;justify-content:center;
     min-height:100vh;overflow:hidden;
-    font-family:'Share Tech Mono',monospace;color:#cccccc;
+    font-family:'Share Tech Mono',monospace;color:#99ccff;
   }
   #wrap{text-align:center;user-select:none;}
-  #label{font-size:8px;letter-spacing:3px;color:#aaaaaa;padding:2px 0 4px;}
+  #label{font-size:8px;letter-spacing:3px;color:#7799dd;padding:2px 0 4px;text-shadow:0 0 4px rgba(100,130,220,0.4);}
   canvas{
-    border:1px solid #444444;border-top:2px solid #888888;
-    cursor:crosshair;display:block;margin:0 auto;background:#0a0a14;
-    box-shadow:0 0 30px rgba(100,100,120,0.18);
+    border:1px solid #5577aa;border-top:2px solid #7799dd;
+    cursor:crosshair;display:block;margin:0 auto;background:#0a1428;
+    box-shadow:0 0 35px rgba(100,150,220,0.25);
   }
   #status-bar{
     display:flex;justify-content:space-between;align-items:center;
-    font-size:7px;letter-spacing:2px;color:#666666;margin-top:3px;
+    font-size:7px;letter-spacing:2px;color:#6688aa;margin-top:3px;
     padding:0 2px;
   }
-  #hint-text{color:#aaaaaa;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;}
+  #hint-text{color:#99ccff;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;text-shadow:0 0 4px rgba(120,160,255,0.5);}
   /* Copland OS System Interface */
   .copland-window{position:absolute;pointer-events:none;background:linear-gradient(135deg,rgba(60,100,200,0.15),rgba(40,80,180,0.25));backdrop-filter:blur(8px);border:1px solid rgba(100,150,255,0.4);border-radius:4px;box-shadow:0 4px 20px rgba(50,100,220,0.3),inset 0 1px 0 rgba(150,180,255,0.3);animation:float-drift 8s ease-in-out infinite;}
   @keyframes float-drift{0%,100%{transform:translateY(0) translateX(0);}25%{transform:translateY(-3px) translateX(2px);}50%{transform:translateY(0) translateX(0);}75%{transform:translateY(3px) translateX(-2px);}}
@@ -458,7 +458,7 @@ function updateEnemies(){
       lives--;
       shake=10;
       sndHit();
-      addParticles(W/2,H/2,12,'255,0,60');
+      addParticles(W/2,H/2,12,'255,120,150');
       showHint('CONNECTION DISRUPTED');
       continue;
     }
@@ -491,8 +491,8 @@ function updateNodes(){
       n.collected=true;
       score+=40;
       sndCollect();
-      addParticles(W/2,H/2,8,'0,255,170');
-      showHint('SIGNAL NODE ACQUIRED');
+      addParticles(W/2,H/2,8,'120,180,255');
+      showHint('DATA NODE ACQUIRED');
     }
   }
   
@@ -548,15 +548,15 @@ function updateParticles(){
 
 // --- RENDER 3D ---
 function render3D(){
-  // Floor with perspective lines
+  // Floor with blue perspective gradient
   var gradient=ctx.createLinearGradient(0,H/2,0,H);
-  gradient.addColorStop(0,'#1a1a2e');
-  gradient.addColorStop(1,'#0a0a14');
+  gradient.addColorStop(0,'#1a2844');
+  gradient.addColorStop(1,'#0a1428');
   ctx.fillStyle=gradient;
   ctx.fillRect(0,H/2,W,H/2);
   
-  // Floor grid lines for depth
-  ctx.strokeStyle='rgba(80,80,100,0.15)';
+  // Floor grid lines with blue tint
+  ctx.strokeStyle='rgba(100,140,200,0.18)';
   ctx.lineWidth=1;
   for(var i=0;i<8;i++){
     var y=H/2+(i*H/16);
@@ -566,10 +566,10 @@ function render3D(){
     ctx.stroke();
   }
   
-  // Ceiling gradient
+  // Ceiling gradient with blue tint
   var ceilGrad=ctx.createLinearGradient(0,0,0,H/2);
-  ceilGrad.addColorStop(0,'#0a0a14');
-  ceilGrad.addColorStop(1,'#1a1a28');
+  ceilGrad.addColorStop(0,'#0a1428');
+  ceilGrad.addColorStop(1,'#1a2438');
   ctx.fillStyle=ceilGrad;
   ctx.fillRect(0,0,W,H/2);
   
@@ -596,12 +596,12 @@ function render3D(){
     rayAngle+=DELTA_ANGLE;
   }
   
-  // Upward fog gradient fading to black
+  // Upward fog gradient with blue tint
   var fogGrad=ctx.createLinearGradient(0,H/2,0,0);
   fogGrad.addColorStop(0,'transparent');
-  fogGrad.addColorStop(0.3,'rgba(0,0,0,0.2)');
-  fogGrad.addColorStop(0.6,'rgba(0,0,0,0.5)');
-  fogGrad.addColorStop(1,'rgba(0,0,0,0.9)');
+  fogGrad.addColorStop(0.3,'rgba(5,10,20,0.2)');
+  fogGrad.addColorStop(0.6,'rgba(10,15,30,0.5)');
+  fogGrad.addColorStop(1,'rgba(10,20,35,0.9)');
   ctx.fillStyle=fogGrad;
   ctx.fillRect(0,0,W,H/2);
 }
@@ -624,27 +624,27 @@ function getWallColorAndPos(angle){
 }
 
 function drawWallColumn(x,top,height,wallData,brightness,dist){
-  // Base wall color (darker, more realistic)
-  var baseR=wallData.horizontal?65:75;
-  var baseG=wallData.horizontal?60:70;
-  var baseB=wallData.horizontal?55:65;
+  // Base wall color with blue-gray holographic tint
+  var baseR=wallData.horizontal?55:65;
+  var baseG=wallData.horizontal?70:80;
+  var baseB=wallData.horizontal?95:105;
   
   // Apply brightness
   var r=Math.floor(baseR*brightness);
   var g=Math.floor(baseG*brightness);
   var b=Math.floor(baseB*brightness);
   
-  // Draw main wall
+  // Draw main wall with blue tint
   ctx.fillStyle='rgb('+r+','+g+','+b+')';
   ctx.fillRect(x,top,1,height);
   
-  // Add brick lines (horizontal mortar lines)
+  // Add panel lines (horizontal divisions)
   if(height>20){
-    var brickHeight=height/8;
-    ctx.strokeStyle='rgba(0,0,0,'+(0.4*brightness)+')';
+    var panelHeight=height/8;
+    ctx.strokeStyle='rgba(80,120,180,'+(0.3*brightness)+')';
     ctx.lineWidth=1;
     for(var i=1;i<8;i++){
-      var lineY=top+i*brickHeight;
+      var lineY=top+i*panelHeight;
       var offset=(Math.floor((wallData.offset*4+i*0.5))%2)*0.5;
       if(Math.random()<0.8){
         ctx.beginPath();
@@ -655,10 +655,10 @@ function drawWallColumn(x,top,height,wallData,brightness,dist){
     }
   }
   
-  // Add vertical gradient for lighting
+  // Add vertical blue glow gradient for holographic effect
   if(height>40){
-    var gradAlpha=0.15*brightness;
-    ctx.fillStyle='rgba(255,255,255,'+gradAlpha+')';
+    var gradAlpha=0.18*brightness;
+    ctx.fillStyle='rgba(120,160,255,'+gradAlpha+')';
     ctx.fillRect(x,top,1,height*0.3);
   }
 }
@@ -717,26 +717,26 @@ function renderSprites(){
     ctx.globalAlpha=fog2*(powerActive?0.5:1);
     
     if(sp.type==='node'){
-      // Glowing orb like in Lain
+      // Glowing blue data orb
       var pulse=0.6+0.4*Math.sin(sp.obj.pulse);
       var grad=ctx.createRadialGradient(screenX,H/2,0,screenX,H/2,size*0.5*pulse);
-      grad.addColorStop(0,'rgba(180,255,220,0.9)');
-      grad.addColorStop(0.5,'rgba(100,255,200,0.5)');
-      grad.addColorStop(1,'rgba(50,200,150,0)');
-      ctx.shadowBlur=20*pulse;
-      ctx.shadowColor='#00ffaa';
+      grad.addColorStop(0,'rgba(180,220,255,0.9)');
+      grad.addColorStop(0.5,'rgba(120,170,255,0.6)');
+      grad.addColorStop(1,'rgba(80,140,220,0)');
+      ctx.shadowBlur=22*pulse;
+      ctx.shadowColor='#88bbff';
       ctx.fillStyle=grad;
       ctx.beginPath();
       ctx.arc(screenX,H/2,size*0.4*pulse,0,Math.PI*2);
       ctx.fill();
     }else if(sp.type==='exit'){
-      // Bright portal glow
+      // Bright holographic portal
       var pGrad=ctx.createRadialGradient(screenX,H/2,0,screenX,H/2,size*0.7);
-      pGrad.addColorStop(0,'rgba(220,255,255,0.95)');
-      pGrad.addColorStop(0.4,'rgba(100,200,255,0.6)');
-      pGrad.addColorStop(1,'rgba(0,150,255,0)');
-      ctx.shadowBlur=25;
-      ctx.shadowColor='#00d4ff';
+      pGrad.addColorStop(0,'rgba(200,230,255,0.95)');
+      pGrad.addColorStop(0.4,'rgba(140,190,255,0.7)');
+      pGrad.addColorStop(1,'rgba(80,140,240,0)');
+      ctx.shadowBlur=28;
+      ctx.shadowColor='#99ccff';
       ctx.fillStyle=pGrad;
       ctx.beginPath();
       ctx.arc(screenX,H/2,size*0.6,0,Math.PI*2);
@@ -778,11 +778,11 @@ function renderMinimap(){
   var mmSize=60,mmX=W-mmSize-5,mmY=5;
   var cellSize=mmSize/COLS;
   
-  ctx.fillStyle='rgba(0,10,20,0.7)';
+  ctx.fillStyle='rgba(10,20,40,0.75)';
   ctx.fillRect(mmX,mmY,mmSize,mmSize);
   
   // Walls
-  ctx.fillStyle='#003d6e';
+  ctx.fillStyle='#4566a0';
   for(var y=0;y<ROWS;y++){
     for(var x=0;x<COLS;x++){
       if(maze[y][x]===1)ctx.fillRect(mmX+x*cellSize,mmY+y*cellSize,cellSize,cellSize);
@@ -790,7 +790,7 @@ function renderMinimap(){
   }
   
   // Nodes
-  ctx.fillStyle='#00ffaa';
+  ctx.fillStyle='#88bbff';
   for(var i=0;i<nodes.length;i++){
     if(!nodes[i].collected){
       var n=nodes[i];
@@ -800,12 +800,12 @@ function renderMinimap(){
   
   // Exit
   if(exitNode.unlocked){
-    ctx.fillStyle='#00d4ff';
+    ctx.fillStyle='#99ccff';
     ctx.fillRect(mmX+exitNode.x*cellSize-1,mmY+exitNode.y*cellSize-1,3,3);
   }
   
   // Enemies
-  ctx.fillStyle='#ff003c';
+  ctx.fillStyle='#ff8888';
   for(var e=0;e<enemies.length;e++){
     var en=enemies[e];
     ctx.fillRect(mmX+en.x*cellSize-1,mmY+en.y*cellSize-1,2,2);
@@ -824,17 +824,17 @@ function renderMinimap(){
   ctx.fill();
   ctx.restore();
   
-  ctx.strokeStyle='#0088aa';
+  ctx.strokeStyle='#7799dd';
   ctx.lineWidth=1;
   ctx.strokeRect(mmX,mmY,mmSize,mmSize);
 }
 
 // --- HUD ---
 function renderHUD(){
-  ctx.fillStyle='rgba(15,15,25,0.7)';
+  ctx.fillStyle='rgba(15,25,45,0.75)';
   ctx.fillRect(0,0,W,16);
   
-  ctx.fillStyle='#cccccc';
+  ctx.fillStyle='#aaccff';
   ctx.font='bold 9px monospace';
   ctx.fillText('SCR:'+score,6,11);
   
@@ -843,11 +843,11 @@ function renderHUD(){
   ctx.fillText(liveStr,W/2-30,11);
   ctx.fillText(layerStr(floor),W-50,11);
   
-  // Power bar
+  // Power bar with blue glow
   var pct=powerCooldown>0?(1-powerCooldown/600):1;
-  ctx.fillStyle='rgba(40,40,60,0.5)';
+  ctx.fillStyle='rgba(30,50,80,0.6)';
   ctx.fillRect(0,H-3,W,3);
-  ctx.fillStyle=powerActive?'rgba(200,180,255,0.7)':'rgba(180,180,200,0.5)';
+  ctx.fillStyle=powerActive?'rgba(180,200,255,0.8)':'rgba(120,160,220,0.6)';
   ctx.fillRect(0,H-3,W*pct,3);
 }
 
@@ -956,20 +956,20 @@ function loop(){
   // Game over
   if(lives<=0){
     running=false;
-    ctx.fillStyle='rgba(10,10,20,0.95)';
+    ctx.fillStyle='rgba(10,20,35,0.95)';
     ctx.fillRect(0,0,W,H);
     ctx.save();
     ctx.textAlign='center';
-    ctx.shadowBlur=22;
-    ctx.shadowColor='#ff8888';
+    ctx.shadowBlur=24;
+    ctx.shadowColor='#ff9999';
     ctx.fillStyle='#ffaaaa';
     ctx.font='bold 16px "VT323",monospace';
     ctx.fillText('CONNECTION LOST',W/2,H/2-20);
     ctx.shadowBlur=0;
-    ctx.fillStyle='#cccccc';
+    ctx.fillStyle='#99ccff';
     ctx.font='9px monospace';
     ctx.fillText('SCORE: '+score+' LAYER: '+floor,W/2,H/2);
-    ctx.fillStyle='#888888';
+    ctx.fillStyle='#7799dd';
     ctx.font='8px monospace';
     ctx.fillText('[ CLICK TO RECONNECT ]',W/2,H/2+20);
     ctx.restore();
@@ -981,48 +981,48 @@ function loop(){
 
 // --- TITLE SCREEN ---
 function drawTitle(){
-  // Darker background gradient
+  // Blue holographic background gradient
   var bgGrad=ctx.createLinearGradient(0,0,0,H);
-  bgGrad.addColorStop(0,'#0a0a14');
-  bgGrad.addColorStop(1,'#1a1a2e');
+  bgGrad.addColorStop(0,'#0a1428');
+  bgGrad.addColorStop(1,'#1a2844');
   ctx.fillStyle=bgGrad;
   ctx.fillRect(0,0,W,H);
   
   var t=Date.now()*0.0005;
   for(var i=0;i<5;i++){
     var sc=((i/5+t)%1);sc=sc*sc;
-    ctx.strokeStyle='rgba(180,180,200,'+(sc*0.25)+')';
+    ctx.strokeStyle='rgba(120,160,220,'+(sc*0.3)+')';
     ctx.lineWidth=0.5;
     ctx.strokeRect(W/2-sc*W*0.46,H/2-sc*H*0.46,sc*W*0.92,sc*H*0.92);
   }
   
   ctx.save();
   ctx.textAlign='center';
-  ctx.shadowBlur=22;
-  ctx.shadowColor='#ffffff';
-  ctx.fillStyle='#ffffff';
+  ctx.shadowBlur=24;
+  ctx.shadowColor='#88bbff';
+  ctx.fillStyle='#aaccff';
   ctx.font='bold 24px "VT323",monospace';
   ctx.fillText('PHANTOMa',W/2,H/2-46);
   ctx.shadowBlur=0;
-  ctx.fillStyle='#aaaaaa';
+  ctx.fillStyle='#7799dd';
   ctx.font='8px monospace';
-  ctx.fillText('SERIAL EXPERIMENTS LAIN // WIRED TAG GAME',W/2,H/2-26);
-  ctx.fillStyle='#cccccc';
+  ctx.fillText('SERIAL EXPERIMENTS LAIN // COPLAND OS TAG GAME',W/2,H/2-26);
+  ctx.fillStyle='#99ccff';
   ctx.font='9px monospace';
-  ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT SIGNAL NODES',W/2,H/2-8);
+  ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT DATA NODES',W/2,H/2-8);
   ctx.fillText('W/S=MOVE  A/D=STRAFE  MOUSE=LOOK  ARROWS=TURN',W/2,H/2+7);
   ctx.fillText('SPACE=ISOLATION.EXE  CLICK=POINTER LOCK',W/2,H/2+20);
-  ctx.fillStyle='#888888';
+  ctx.fillStyle='#6688aa';
   ctx.font='7px monospace';
   ctx.fillText('TAG GAME // DON\'T GET CAUGHT // REACH THE EXIT',W/2,H/2+35);
-  ctx.fillStyle='#00d4ff';
+  ctx.fillStyle='#88bbff';
   ctx.font='10px monospace';
-  ctx.shadowBlur=8;
-  ctx.shadowColor='#00d4ff';
+  ctx.shadowBlur=10;
+  ctx.shadowColor='#88bbff';
   if(Math.sin(Date.now()*0.004)>0)ctx.fillText('[ CLICK TO ENTER THE WIRED ]',W/2,H/2+55);
   if(highScore>0){
     ctx.shadowBlur=0;
-    ctx.fillStyle='#666666';
+    ctx.fillStyle='#5577aa';
     ctx.font='8px monospace';
     ctx.fillText('HIGH SCORE: '+highScore,W/2,H/2+70);
   }
