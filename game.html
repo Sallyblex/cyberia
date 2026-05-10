@@ -200,12 +200,14 @@ function updatePlayer(){
   
   // Collision
   var newX=player.x+moveX,newY=player.y+moveY;
-  var buffer=0.2;
-  if(moveX!==0){
-    if(!isWall(newX+buffer*Math.sign(moveX),player.y)&&!isWall(newX-buffer*Math.sign(moveX),player.y))player.x=newX;
-  }
-  if(moveY!==0){
-    if(!isWall(player.x,newY+buffer*Math.sign(moveY))&&!isWall(player.x,newY-buffer*Math.sign(moveY)))player.y=newY;
+  var buffer=0.25;
+  if(!isWall(newX,newY)){
+    player.x=newX;
+    player.y=newY;
+  }else{
+    // Try sliding along walls
+    if(!isWall(newX,player.y))player.x=newX;
+    if(!isWall(player.x,newY))player.y=newY;
   }
 }
 
