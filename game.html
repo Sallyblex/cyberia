@@ -27,25 +27,25 @@
   }
   #hint-text{color:#99ccff;font-size:7px;letter-spacing:2px;margin-top:2px;min-height:10px;transition:opacity 0.5s;text-shadow:0 0 4px rgba(120,160,255,0.5);}
   /* Copland OS System Interface */
-  .copland-window{position:absolute;pointer-events:none;background:linear-gradient(135deg,rgba(40,80,180,0.25),rgba(20,60,160,0.35));backdrop-filter:blur(12px);border:2px solid rgba(100,150,255,0.5);border-radius:6px;box-shadow:0 8px 40px rgba(60,120,240,0.4),inset 0 2px 0 rgba(150,180,255,0.2),inset 0 -1px 0 rgba(50,100,200,0.3);animation:float-drift 10s ease-in-out infinite;}
+  .copland-window{position:absolute;pointer-events:none;background:linear-gradient(135deg,rgba(40,80,180,0.3),rgba(20,60,160,0.4));backdrop-filter:blur(15px);border:2px solid rgba(100,150,255,0.6);border-radius:6px;box-shadow:0 8px 40px rgba(60,120,240,0.5),inset 0 2px 0 rgba(150,180,255,0.25),inset 0 -1px 0 rgba(50,100,200,0.35);animation:float-drift 10s ease-in-out infinite;}
   @keyframes float-drift{0%,100%{transform:translateY(0) translateX(0);}25%{transform:translateY(-3px) translateX(2px);}50%{transform:translateY(0) translateX(0);}75%{transform:translateY(3px) translateX(-2px);}}
-  .copland-panel{background:linear-gradient(135deg,rgba(50,90,180,0.2),rgba(30,70,160,0.3));border:1px solid rgba(80,130,255,0.4);border-radius:4px;padding:8px;font-family:'Share Tech Mono',monospace;font-size:6px;color:#99ccff;line-height:1.6;letter-spacing:0.5px;text-shadow:0 0 4px rgba(120,160,255,0.5);}
+  .copland-panel{background:linear-gradient(135deg,rgba(40,80,180,0.3),rgba(20,60,160,0.4));backdrop-filter:blur(8px);border:1px solid rgba(120,170,255,0.5);border-radius:4px;padding:8px;font-family:'Share Tech Mono',monospace;font-size:6px;color:#99ccff;line-height:1.6;letter-spacing:0.5px;text-shadow:0 0 5px rgba(120,160,255,0.6);box-shadow:inset 0 1px 0 rgba(150,180,255,0.2);}
   @keyframes subtle-pulse{0%,100%{opacity:0.7;}50%{opacity:0.85;}}
   .copland-holo{position:absolute;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(80,130,255,0.15),transparent);animation:holo-sweep 6s linear infinite;height:100%;width:100%;}
   @keyframes holo-sweep{0%{transform:translateY(-100%);}100%{transform:translateY(100%);}}
-  .copland-scan{position:absolute;pointer-events:none;width:3px;height:100%;background:linear-gradient(to bottom,transparent,rgba(120,160,255,0.7),rgba(80,140,255,0.9),rgba(120,160,255,0.7),transparent);animation:scan-motion 5s linear infinite;box-shadow:0 0 12px rgba(100,150,255,0.7);}
+  .copland-scan{position:absolute;pointer-events:none;width:3px;height:100%;background:linear-gradient(to bottom,transparent,rgba(120,160,255,0.75),rgba(80,140,255,0.95),rgba(120,160,255,0.75),transparent);animation:scan-motion 5s linear infinite;box-shadow:0 0 14px rgba(100,150,255,0.8);}
   @keyframes scan-motion{0%{left:-3px;}100%{left:calc(100% + 3px);}}
-  .copland-line{position:absolute;pointer-events:none;height:1px;background:linear-gradient(to right,transparent,rgba(100,150,255,0.5),transparent);animation:line-glow 3s ease-in-out infinite;}
-  @keyframes line-glow{0%,100%{opacity:0.4;box-shadow:0 0 3px rgba(100,150,255,0.4);}50%{opacity:0.7;box-shadow:0 0 8px rgba(100,150,255,0.7);}}
-  .copland-data{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:7px;color:#99ccff;opacity:0.7;letter-spacing:2px;animation:data-flicker 3s ease-in-out infinite;text-shadow:0 0 5px rgba(120,160,255,0.6);}
-  @keyframes data-flicker{0%,100%{opacity:0.7;}30%{opacity:0.45;}60%{opacity:0.85;}}
-  .copland-bracket{position:absolute;pointer-events:none;border:2px solid rgba(100,150,255,0.5);box-shadow:0 0 18px rgba(80,140,255,0.4),inset 0 0 8px rgba(120,170,255,0.25);animation:bracket-fade 5s ease-in-out infinite;}
-  @keyframes bracket-fade{0%,100%{opacity:0.35;}50%{opacity:0.55;}}
+  .copland-line{position:absolute;pointer-events:none;height:1px;background:linear-gradient(to right,transparent,rgba(100,150,255,0.6),transparent);animation:line-glow 3s ease-in-out infinite;}
+  @keyframes line-glow{0%,100%{opacity:0.5;box-shadow:0 0 4px rgba(100,150,255,0.5);}50%{opacity:0.8;box-shadow:0 0 10px rgba(100,150,255,0.8);}}
+  .copland-data{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:7px;color:#99ccff;opacity:0.75;letter-spacing:2px;animation:data-flicker 3s ease-in-out infinite;text-shadow:0 0 6px rgba(120,160,255,0.7);}
+  @keyframes data-flicker{0%,100%{opacity:0.75;}30%{opacity:0.5;}60%{opacity:0.9;}}
+  .copland-bracket{position:absolute;pointer-events:none;border:2px solid rgba(100,150,255,0.6);box-shadow:0 0 20px rgba(80,140,255,0.5),inset 0 0 10px rgba(120,170,255,0.3);animation:bracket-fade 5s ease-in-out infinite;}
+  @keyframes bracket-fade{0%,100%{opacity:0.45;}50%{opacity:0.7;}}
   .copland-stream{position:absolute;pointer-events:none;font-family:'VT323',monospace;font-size:6px;color:#7799dd;opacity:0.4;letter-spacing:1px;animation:stream-scroll 20s linear infinite;white-space:nowrap;text-shadow:0 0 3px rgba(100,130,220,0.4);}
   @keyframes stream-scroll{0%{transform:translateY(0);}100%{transform:translateY(-100%);}}
-  .copland-glow{position:absolute;pointer-events:none;background:radial-gradient(circle,rgba(80,130,255,0.25),transparent 70%);animation:glow-pulse 6s ease-in-out infinite;}
-  @keyframes glow-pulse{0%,100%{opacity:0.4;transform:scale(1);}50%{opacity:0.7;transform:scale(1.15);}}
-  .copland-grid{position:absolute;pointer-events:none;opacity:0.08;background-image:repeating-linear-gradient(0deg,rgba(100,150,255,0.3) 0px,transparent 1px,transparent 15px),repeating-linear-gradient(90deg,rgba(100,150,255,0.3) 0px,transparent 1px,transparent 15px);animation:grid-shift 10s linear infinite;}
+  .copland-glow{position:absolute;pointer-events:none;background:radial-gradient(circle,rgba(80,130,255,0.3),transparent 70%);animation:glow-pulse 6s ease-in-out infinite;}
+  @keyframes glow-pulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0.8;transform:scale(1.2);}}
+  .copland-grid{position:absolute;pointer-events:none;opacity:0.12;background-image:repeating-linear-gradient(0deg,rgba(100,150,255,0.4) 0px,transparent 1px,transparent 15px),repeating-linear-gradient(90deg,rgba(100,150,255,0.4) 0px,transparent 1px,transparent 15px);animation:grid-shift 10s linear infinite;}
   @keyframes grid-shift{0%{background-position:0 0;}100%{background-position:15px 15px;}}
   /* Login Copland interface */
   .copland-boot{font-family:'VT323',monospace;font-size:8px;color:#99ccff;opacity:0.75;letter-spacing:1px;line-height:1.7;text-align:left;text-shadow:0 0 4px rgba(120,160,255,0.4);}
@@ -209,9 +209,9 @@
     </div>
   </div>
   <!-- Rotating holographic background layer (like login) -->
-  <div style="position:absolute;inset:-50px;pointer-events:none;background:radial-gradient(circle at 30% 40%,rgba(80,140,255,0.08),transparent 40%),radial-gradient(circle at 70% 60%,rgba(100,160,255,0.06),transparent 50%);animation:holo-rotate 15s linear infinite;z-index:-1;"></div>
+  <div style="position:absolute;inset:-50px;pointer-events:none;background:radial-gradient(circle at 30% 40%,rgba(80,140,255,0.12),transparent 40%),radial-gradient(circle at 70% 60%,rgba(100,160,255,0.10),transparent 50%);animation:holo-rotate 15s linear infinite;z-index:-1;"></div>
   <!-- Scanline overlay (like login) -->
-  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(100,150,255,0.03) 3px,rgba(100,150,255,0.03) 6px);z-index:5;"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(100,150,255,0.05) 3px,rgba(100,150,255,0.05) 6px);z-index:5;"></div>
   <!-- Holographic scan effects (multiple beams) -->
   <div class="copland-scan" style="animation-delay:0s;"></div>
   <div class="copland-scan" style="animation-delay:-2.5s;width:2px;opacity:0.3;"></div>
@@ -224,10 +224,10 @@
   <div class="copland-data" style="top:150px;right:50px;animation-delay:-4s;">01011010</div>
   <div class="copland-data" style="bottom:120px;right:180px;animation-delay:-5s;">10010110</div>
   <!-- Grid overlays (expanded) -->
-  <div class="copland-grid" style="top:65px;left:-12px;width:110px;height:110px;opacity:0.12;"></div>
-  <div class="copland-grid" style="top:65px;right:-12px;width:110px;height:110px;opacity:0.12;"></div>
-  <div class="copland-grid" style="bottom:80px;left:-12px;width:110px;height:110px;opacity:0.10;"></div>
-  <div class="copland-grid" style="bottom:80px;right:-12px;width:110px;height:110px;opacity:0.10;"></div>
+  <div class="copland-grid" style="top:65px;left:-12px;width:110px;height:110px;opacity:0.15;"></div>
+  <div class="copland-grid" style="top:65px;right:-12px;width:110px;height:110px;opacity:0.15;"></div>
+  <div class="copland-grid" style="bottom:80px;left:-12px;width:110px;height:110px;opacity:0.12;"></div>
+  <div class="copland-grid" style="bottom:80px;right:-12px;width:110px;height:110px;opacity:0.12;"></div>
   <!-- Glowing divider lines -->
   <div class="copland-line" style="top:53px;left:-155px;right:-155px;"></div>
   <div class="copland-line" style="bottom:-28px;left:-155px;right:-155px;animation-delay:-1.5s;"></div>
@@ -248,10 +248,10 @@
   <div class="copland-glow" style="bottom:20%;right:6%;width:200px;height:200px;animation-delay:-5s;"></div>
   <div class="copland-glow" style="top:50%;left:50%;width:180px;height:180px;animation-delay:-8s;transform:translate(-50%,-50%);"></div>
   <!-- Canvas corner accents -->
-  <div style="position:absolute;top:42px;left:158px;width:45px;height:45px;border-left:2px solid rgba(100,150,255,0.4);border-top:2px solid rgba(100,150,255,0.4);pointer-events:none;animation:bracket-fade 5s ease-in-out infinite;"></div>
-  <div style="position:absolute;top:42px;right:158px;width:45px;height:45px;border-right:2px solid rgba(100,150,255,0.4);border-top:2px solid rgba(100,150,255,0.4);pointer-events:none;animation:bracket-fade 5s ease-in-out infinite;animation-delay:-1.5s;"></div>
-  <div style="position:absolute;bottom:18px;left:158px;width:45px;height:45px;border-left:2px solid rgba(100,150,255,0.4);border-bottom:2px solid rgba(100,150,255,0.4);pointer-events:none;animation:bracket-fade 5s ease-in-out infinite;animation-delay:-3s;"></div>
-  <div style="position:absolute;bottom:18px;right:158px;width:45px;height:45px;border-right:2px solid rgba(100,150,255,0.4);border-bottom:2px solid rgba(100,150,255,0.4);pointer-events:none;animation:bracket-fade 5s ease-in-out infinite;animation-delay:-4.5s;"></div>
+  <div style="position:absolute;top:42px;left:158px;width:45px;height:45px;border-left:2px solid rgba(100,150,255,0.5);border-top:2px solid rgba(100,150,255,0.5);pointer-events:none;box-shadow:0 0 10px rgba(80,140,255,0.3);animation:bracket-fade 5s ease-in-out infinite;"></div>
+  <div style="position:absolute;top:42px;right:158px;width:45px;height:45px;border-right:2px solid rgba(100,150,255,0.5);border-top:2px solid rgba(100,150,255,0.5);pointer-events:none;box-shadow:0 0 10px rgba(80,140,255,0.3);animation:bracket-fade 5s ease-in-out infinite;animation-delay:-1.5s;"></div>
+  <div style="position:absolute;bottom:18px;left:158px;width:45px;height:45px;border-left:2px solid rgba(100,150,255,0.5);border-bottom:2px solid rgba(100,150,255,0.5);pointer-events:none;box-shadow:0 0 10px rgba(80,140,255,0.3);animation:bracket-fade 5s ease-in-out infinite;animation-delay:-3s;"></div>
+  <div style="position:absolute;bottom:18px;right:158px;width:45px;height:45px;border-right:2px solid rgba(100,150,255,0.5);border-bottom:2px solid rgba(100,150,255,0.5);pointer-events:none;box-shadow:0 0 10px rgba(80,140,255,0.3);animation:bracket-fade 5s ease-in-out infinite;animation-delay:-4.5s;"></div>
   <div id="label">● ○ ○&nbsp;&nbsp;PHANTOMa&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
   <canvas id="lain-c" width="960" height="600"></canvas>
   <div id="status-bar">
