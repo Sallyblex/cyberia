@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYBERIA.EXE // LAYER:06</title>
+<title>PHANTOMa // LAYER:06</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -54,7 +54,7 @@
 <!-- LOGIN SCREEN -->
 <div id="login-screen" style="position:fixed;inset:0;background:#0a0a14;display:flex;align-items:center;justify-content:center;z-index:1000;">
   <div style="text-align:center;padding:30px;border:1px solid #444444;border-top:2px solid #888888;background:rgba(20,20,30,0.9);box-shadow:0 0 40px rgba(100,100,120,0.2);min-width:340px;">
-    <div style="font-family:'VT323',monospace;font-size:28px;color:#ffffff;text-shadow:0 0 20px #ffffff;margin-bottom:8px;letter-spacing:3px;">CYBERIA.EXE</div>
+    <div style="font-family:'VT323',monospace;font-size:28px;color:#ffffff;text-shadow:0 0 20px #ffffff;margin-bottom:8px;letter-spacing:3px;">PHANTOMa</div>
     <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#aaaaaa;letter-spacing:2px;margin-bottom:20px;">// AUTHORIZATION REQUIRED //</div>
     <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#888888;margin-bottom:14px;line-height:1.6;">WIRED ACCESS PROTOCOL<br>CREDENTIALS HIDDEN ON PROFILE<br>SEEK THE DEEPER LAYERS</div>
     <input type="text" id="login-user" placeholder="USERNAME" style="width:100%;padding:8px 10px;margin-bottom:10px;background:#14141e;border:1px solid #444444;color:#ffffff;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;outline:none;" />
@@ -64,7 +64,7 @@
   </div>
 </div>
 <div id="wrap" style="display:none;">
-  <div id="label">● ○ ○&nbsp;&nbsp;CYBERIA.EXE&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
+  <div id="label">● ○ ○&nbsp;&nbsp;PHANTOMa&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
   <canvas id="lain-c" width="960" height="600"></canvas>
   <div id="status-bar">
     <span id="combo-display"></span>
@@ -775,19 +775,19 @@ function drawTitle(){
   ctx.shadowColor='#ffffff';
   ctx.fillStyle='#ffffff';
   ctx.font='bold 24px "VT323",monospace';
-  ctx.fillText('CYBERIA.EXE',W/2,H/2-46);
+  ctx.fillText('PHANTOMa',W/2,H/2-46);
   ctx.shadowBlur=0;
   ctx.fillStyle='#aaaaaa';
   ctx.font='8px monospace';
-  ctx.fillText('SERIAL EXPERIMENTS LAIN // WIRED LABYRINTH',W/2,H/2-26);
+  ctx.fillText('SERIAL EXPERIMENTS LAIN // WIRED TAG GAME',W/2,H/2-26);
   ctx.fillStyle='#cccccc';
   ctx.font='9px monospace';
-  ctx.fillText('NAVIGATE THE 3D MAZE // COLLECT SIGNAL NODES',W/2,H/2-8);
+  ctx.fillText('EVADE THE GLOWING ENTITIES // COLLECT SIGNAL NODES',W/2,H/2-8);
   ctx.fillText('W/S=MOVE A/D=TURN Q/E=STRAFE ARROWS=TURN',W/2,H/2+7);
-  ctx.fillText('SPACE=ISOLATION.EXE (SLOW ENEMIES)',W/2,H/2+20);
+  ctx.fillText('SPACE=ISOLATION.EXE (SLOW ENTITIES)',W/2,H/2+20);
   ctx.fillStyle='#888888';
   ctx.font='7px monospace';
-  ctx.fillText('AVOID GLOWING ENTITIES // UNLOCK EXIT // PROGRESS LAYERS',W/2,H/2+35);
+  ctx.fillText('TAG GAME // DON\'T GET CAUGHT // REACH THE EXIT',W/2,H/2+35);
   ctx.fillStyle='#ffffff';
   ctx.font='10px monospace';
   if(Math.sin(Date.now()*0.004)>0)ctx.fillText('[ CLICK TO ENTER THE WIRED ]',W/2,H/2+55);
