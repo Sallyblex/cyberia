@@ -409,8 +409,8 @@ function render3D(){
     // Fix fisheye
     dist*=Math.cos(rayAngle-player.angle);
     
-    // Wall height
-    var wallHeight=Math.min(H,(H/dist)*0.66);
+    // Wall height (increased for more immersive view)
+    var wallHeight=Math.min(H*1.5,(H/dist)*1.1);
     var top=H/2-wallHeight/2;
     
     // Distance fog
@@ -422,6 +422,15 @@ function render3D(){
     
     rayAngle+=DELTA_ANGLE;
   }
+  
+  // Upward fog gradient fading to black
+  var fogGrad=ctx.createLinearGradient(0,H/2,0,0);
+  fogGrad.addColorStop(0,'transparent');
+  fogGrad.addColorStop(0.3,'rgba(0,0,0,0.2)');
+  fogGrad.addColorStop(0.6,'rgba(0,0,0,0.5)');
+  fogGrad.addColorStop(1,'rgba(0,0,0,0.9)');
+  ctx.fillStyle=fogGrad;
+  ctx.fillRect(0,0,W,H/2);
 }
 
 function getWallColorAndPos(angle){
