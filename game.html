@@ -827,19 +827,24 @@ cv.addEventListener('click',function(){
 });
 
 document.addEventListener('keydown',function(e){
-  var k=e.key;
-  if(k==='ArrowUp'||k==='ArrowDown'||k==='ArrowLeft'||k==='ArrowRight'||
-     k==='w'||k==='W'||k==='a'||k==='A'||k==='s'||k==='S'||k==='d'||k==='D'||
-     k==='q'||k==='Q'||k==='e'||k==='E'||k===' '||k==='Shift'){
-    e.preventDefault();
+  // Only handle game keys if login screen is hidden
+  if(loginScreen.style.display==='none'){
+    var k=e.key;
+    if(k==='ArrowUp'||k==='ArrowDown'||k==='ArrowLeft'||k==='ArrowRight'||
+       k==='w'||k==='W'||k==='a'||k==='A'||k==='s'||k==='S'||k==='d'||k==='D'||
+       k==='q'||k==='Q'||k==='e'||k==='E'||k===' '||k==='Shift'){
+      e.preventDefault();
+    }
+    if(k==='Shift')return;
+    keys[k]=true;
+    if(k===' ')usePower();
   }
-  if(k==='Shift')return;
-  keys[k]=true;
-  if(k===' ')usePower();
 });
 
 document.addEventListener('keyup',function(e){
-  keys[e.key]=false;
+  if(loginScreen.style.display==='none'){
+    keys[e.key]=false;
+  }
 });
 
 // === LOGIN SYSTEM ===
