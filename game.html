@@ -527,9 +527,12 @@ cv.addEventListener('click',function(){
 });
 
 document.addEventListener('keydown',function(e){
-  keys[e.key]=true;
-  if(e.key===' '||e.key==='r'||e.key==='R'){
+  var k=e.key;
+  if(k==='ArrowUp'||k==='ArrowDown'||k==='ArrowLeft'||k==='ArrowRight'||k==='w'||k==='W'||k==='a'||k==='A'||k==='s'||k==='S'||k==='d'||k==='D'||k===' '||k==='r'||k==='R'){
     e.preventDefault();
+  }
+  keys[k]=true;
+  if(k===' '||k==='r'||k==='R'){
     usePower();
   }
 });
