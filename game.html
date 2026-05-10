@@ -36,7 +36,7 @@
 <body>
 <div id="wrap">
   <div id="label">● ○ ○&nbsp;&nbsp;CYBERIA.EXE&nbsp;&nbsp;//&nbsp;<span id="layer-label">LAYER:01</span></div>
-  <canvas id="lain-c" width="640" height="400"></canvas>
+  <canvas id="lain-c" width="800" height="500"></canvas>
   <div id="status-bar">
     <span id="combo-display"></span>
     <span id="hint-text">[ CLICK TO ENTER THE WIRED ]</span>
@@ -574,7 +574,6 @@ function loop(){
   
   render3D();
   renderSprites();
-  renderMinimap();
   renderHUD();
   renderParticles();
   
@@ -688,9 +687,10 @@ document.addEventListener('keydown',function(e){
   var k=e.key;
   if(k==='ArrowUp'||k==='ArrowDown'||k==='ArrowLeft'||k==='ArrowRight'||
      k==='w'||k==='W'||k==='a'||k==='A'||k==='s'||k==='S'||k==='d'||k==='D'||
-     k==='q'||k==='Q'||k==='e'||k==='E'||k===' '){
+     k==='q'||k==='Q'||k==='e'||k==='E'||k===' '||k==='Shift'){
     e.preventDefault();
   }
+  if(k==='Shift')return;
   keys[k]=true;
   if(k===' ')usePower();
 });
