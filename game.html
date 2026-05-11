@@ -81,13 +81,13 @@
   .lain-ghost{
     position:fixed;
     pointer-events:none;
-    z-index:9999;
+    z-index:2;
     opacity:0;
     transition:opacity 1.5s ease-in-out;
     filter:blur(0.5px) brightness(0.95);
     animation:lain-drift 8s ease-in-out infinite;
   }
-  .lain-ghost.visible{opacity:0.75;}
+  .lain-ghost.visible{opacity:0.6;}
   @keyframes lain-drift{
     0%,100%{transform:translateY(0) translateX(0) scale(1);}
     25%{transform:translateY(-8px) translateX(5px) scale(1.02);}
@@ -1172,8 +1172,8 @@ function spawnLainGhost(){
   ghost.src='b0d3f5a8b7139a05f70e64d0d2448efc.gif';
   ghost.className='lain-ghost';
   
-  // Large face size between 300-500px
-  var size=300+Math.random()*200;
+  // Very large face size between 600-900px
+  var size=600+Math.random()*300;
   ghost.style.width=size+'px';
   ghost.style.height='auto';
   
