@@ -77,6 +77,23 @@
     transform:translateY(-2px);
   }
   #login-error.show{opacity:1 !important;}
+  /* Lain Ghost Images */
+  .lain-ghost{
+    position:fixed;
+    pointer-events:none;
+    z-index:5;
+    opacity:0;
+    transition:opacity 1.5s ease-in-out;
+    filter:blur(0.5px) brightness(0.95);
+    animation:lain-drift 8s ease-in-out infinite;
+  }
+  .lain-ghost.visible{opacity:0.7;}
+  @keyframes lain-drift{
+    0%,100%{transform:translateY(0) translateX(0) scale(1);}
+    25%{transform:translateY(-8px) translateX(5px) scale(1.02);}
+    50%{transform:translateY(0) translateX(0) scale(0.98);}
+    75%{transform:translateY(8px) translateX(-5px) scale(1.01);}
+  }
 </style>
 </head>
 <body>
@@ -181,7 +198,7 @@
     </div>
   </div>
   <!-- Right entity monitor window -->
-  <div class="copland-window" style="position:absolute;top:120px;right:25px;width:165px;padding:12px 14px;animation-delay:-3s;">
+  <div class="copland-window" style="position:absolute;top:120px;right:25px;width:165px;padding:12pxs 14px;animation-delay:-3s;">
     <div class="copland-panel" style="position:static;">
       <div style="color:#ffaaaa;margin-bottom:6px;font-weight:bold;font-size:7px;text-shadow:0 0 4px rgba(255,150,150,0.5);">› ENTITIES</div>
       DETECTED: <span id="entity-count" style="color:#ff9999;">##</span><br>
@@ -1142,6 +1159,110 @@ loginUser.addEventListener('keypress',function(e){if(e.key==='Enter')checkLogin(
 loginPass.addEventListener('keypress',function(e){if(e.key==='Enter')checkLogin();});
 
 loginUser.focus();
+
+// === LAIN GHOST SPAWNER ===
+var lainGhosts=[];
+var lainSpawnTimer=0;
+
+function spawnLainGhost(){
+  // Don't spawn on login screen
+  if(loginScreen.style.display!=='none')return;
+  
+  var ghost=document.createElement('img');
+  ghost.src='b0d3f5a8b7139a05f70e64d0d2448efc.gif';
+  ghost.className='lain-ghost';
+  
+  // Random size between 80-200px
+  var size=80+Math.random()*120;
+  ghost.style.width=size+'px';
+  ghost.style.height='auto';
+  
+  // Random position in the margins around the game canvas
+  // Canvas is centered, so we spawn in corners and edges
+  var windowW=window.innerWidth;
+  var windowH=window.innerHeight;
+  var canvasW=960;
+  var canvasH=600;
+  
+  var marginLeft=(windowW-canvasW)/2;
+  var marginTop=(windowH-canvasH)/2;
+  
+  // Choose random zone: 0=left, 1=right, 2=top, 3=bottom, 4=top-left, 5=top-right, 6=bottom-left, 7=bottom-right
+  var zone=Math.floor(Math.random()*8);
+  
+  switch(zone){
+    case 0: // left margin
+      ghost.style.left=Math.random()*(marginLeft-size)+'px';
+      ghost.style.top=(marginTop+Math.random()*canvasH)+'px';
+      break;
+    case 1: // right margin
+      ghost.style.left=(windowW-marginLeft+Math.random()*(marginLeft-size))+'px';
+      ghost.style.top=(marginTop+Math.random()*canvasH)+'px';
+      break;
+    case 2: // top margin
+      ghost.style.left=(marginLeft+Math.random()*canvasW)+'px';
+      ghost.style.top=Math.random()*(marginTop-size)+'px';
+      break;
+    case 3: // bottom margin
+      ghost.style.left=(marginLeft+Math.random()*canvasW)+'px';
+      ghost.style.top=(windowH-marginTop+Math.random()*(marginTop-size))+'px';
+      break;
+    case 4: // top-left corner
+      ghost.style.left=Math.random()*(marginLeft-size)+'px';
+      ghost.style.top=Math.random()*(marginTop-size)+'px';
+      break;
+    case 5: // top-right corner
+      ghost.style.left=(windowW-marginLeft+Math.random()*(marginLeft-size))+'px';
+      ghost.style.top=Math.random()*(marginTop-size)+'px';
+      break;
+    case 6: // bottom-left corner
+      ghost.style.left=Math.random()*(marginLeft-size)+'px';
+      ghost.style.top=(windowH-marginTop+Math.random()*(marginTop-size))+'px';
+      break;
+    case 7: // bottom-right corner
+      ghost.style.left=(windowW-marginLeft+Math.random()*(marginLeft-size))+'px';
+      ghost.style.top=(windowH-marginTop+Math.random()*(marginTop-size))+'px';
+      break;
+  }
+  
+  // Random animation delay for drift effect
+  ghost.style.animationDelay='-'+(Math.random()*8)+'s';
+  
+  document.body.appendChild(ghost);
+  
+  // Fade in
+  setTimeout(function(){ghost.classList.add('visible');},50);
+  
+  // Store reference
+  var ghostData={element:ghost,lifetime:3000+Math.random()*4000};
+  lainGhosts.push(ghostData);
+  
+  // Fade out and remove after lifetime
+  setTimeout(function(){
+    ghost.classList.remove('visible');
+    setTimeout(function(){
+      if(ghost.parentNode)ghost.parentNode.removeChild(ghost);
+      lainGhosts=lainGhosts.filter(function(g){return g.element!==ghost;});
+    },1500);
+  },ghostData.lifetime);
+}
+
+// Lain spawner loop
+function updateLainSpawner(){
+  if(loginScreen.style.display==='none'){
+    lainSpawnTimer++;
+    // Spawn every 120-300 frames (2-5 seconds at 60fps)
+    if(lainSpawnTimer>120+Math.random()*180){
+      spawnLainGhost();
+      lainSpawnTimer=0;
+    }
+  }
+  requestAnimationFrame(updateLainSpawner);
+}
+
+// Start spawner
+updateLainSpawner();
+
 })();
 </script>
 </body>
