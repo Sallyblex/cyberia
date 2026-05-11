@@ -81,13 +81,13 @@
   .lain-ghost{
     position:fixed;
     pointer-events:none;
-    z-index:5;
+    z-index:9999;
     opacity:0;
     transition:opacity 1.5s ease-in-out;
     filter:blur(0.5px) brightness(0.95);
     animation:lain-drift 8s ease-in-out infinite;
   }
-  .lain-ghost.visible{opacity:0.7;}
+  .lain-ghost.visible{opacity:0.75;}
   @keyframes lain-drift{
     0%,100%{transform:translateY(0) translateX(0) scale(1);}
     25%{transform:translateY(-8px) translateX(5px) scale(1.02);}
@@ -1172,8 +1172,8 @@ function spawnLainGhost(){
   ghost.src='b0d3f5a8b7139a05f70e64d0d2448efc.gif';
   ghost.className='lain-ghost';
   
-  // Random size between 80-200px
-  var size=80+Math.random()*120;
+  // Large face size between 300-500px
+  var size=300+Math.random()*200;
   ghost.style.width=size+'px';
   ghost.style.height='auto';
   
@@ -1251,8 +1251,8 @@ function spawnLainGhost(){
 function updateLainSpawner(){
   if(loginScreen.style.display==='none'){
     lainSpawnTimer++;
-    // Spawn every 120-300 frames (2-5 seconds at 60fps)
-    if(lainSpawnTimer>120+Math.random()*180){
+    // Spawn every 600-1200 frames (10-20 seconds at 60fps)
+    if(lainSpawnTimer>600+Math.random()*600){
       spawnLainGhost();
       lainSpawnTimer=0;
     }
